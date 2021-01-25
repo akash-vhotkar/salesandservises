@@ -29,38 +29,51 @@
 </style>
 
 <body>
+    <nav class="navbar navbar-light bg-light d-flex justify-content-end">
+        <form action="/emp/lead/callmanagement" class="form-inline">
+            <button class="btn btn-primary" type="submit">call managment </button>
+
+        </form>
+    </nav>
     <div class="container myparent">
+
         <div class="col-md-5 myformdiv shadow">
 
-            <form class="w-75">
+            <form action="/emp/lead" class="w-75" method="POST">
                 <div>
                     <h1>Lead generator form</h1>
                 </div>
                 <div class="form-group p-3">
 
                     <label>Customer Name <span class="star">*</span></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter email" required>
+                    <input type="text" name="c_name" class="form-control" aria-describedby="emailHelp"
+                        placeholder="Enter Customer Name" required>
 
                 </div>
                 <div class="form-group p-3">
                     <label>Customer Id <span class="star">*</span></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter Customer Id" required>
+                    <input type="text" class="form-control" name="c_id" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter Customer Id" value="<%- c_id%>" readonly>
 
                 </div>
                 <div class="form-group p-3">
                     <label>Customer Email<span class="star">*</span></label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                        placeholder="Enter email" required>
+                    <input type="email" name="c_email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter email" required>
 
                 </div>
 
 
-                <div class="form-group p-3">
-                    <label for="exampleInputPassword1">Company Name </label>
-                    <input type="text" class="form-control p-2" id="exampleInputPassword1"
-                        placeholder="Enter Customer Company Name (optional)">
+                <div class="form-group p-3 ">
+                    <label for="exampleInputPassword1">lead status </label>
+                    <br>
+
+                    <input type="radio" name="lead_status" value="true" id="leadstatus">
+                    <label for="sadsf">true</label>
+                    <br>
+                    <input type="radio" name="lead_status" value="false" id="leadstatus">
+                    <label for="sdf">false</label>
+
                 </div>
                 <div class="form-group p-3">
                     <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"

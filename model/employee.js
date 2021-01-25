@@ -1,26 +1,21 @@
 const mongoose = require('mongoose');
-const empschema = mongoose.Schema({
-    employeename: {
+const empschema = new mongoose.Schema({
+    emp_name: {
         type: String,
         required: true
     },
-    employeeId: {
+    emp_id: {
         type: String,
         required: true
     },
-    employeeEmail: {
+    emp_email: {
         type: String,
         required: true
     },
-    password: {
+    cop_name: {
         type: String,
         required: false
-    },
-    lead: [{
-        customername: String,
-        customerId: String,
-        customeremail: String
+    }
 
-    }]
 })
 module.exports = mongoose.model('employee', empschema);
