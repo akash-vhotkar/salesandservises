@@ -90,15 +90,30 @@ module.exports = {
         const calldate = req.body.call_date
         const calltime = req.body.call_time;
         const calldesc = req.body.call_desc;
-        lead_form.findOneAndUpdate({ c_id: custid, 'reminder._id': callid }, {
-            $set: {
-                'reminder.rem_date': calldate,
-                'reminder.rem_time': calltime,
-                'reminder.rem_desc': calldesc
+        lead_form.findOneAndUpdate({ c_id: custid }, {
+            $pull: { reminder: { _id: callid } }
+        }, { new: true }, (err, data) => {
+            if (err) console.log(err);
+            else if (data) {
+                lead_form.findOneAndUpdate({ c_id: custid }, {
+                    $push: {
+                        reminder: {
+                            rem_date: calldate,
+                            rem_time: calltime,
+                            rem_desc: calldesc
+                        }
+                    }
+                }, { new: true }, (err, data) => {
+                    if (err) console.log(err);
+                    if (data) {
+                        res.redirect('/emp/lead/callmanagement')
+                    }
+                })
             }
+
         })
 
-        res.redirect('/emp/lead/callmanagement')
+
 
 
     }
