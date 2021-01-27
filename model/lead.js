@@ -25,7 +25,8 @@ const shema = new mongoose.Schema({
     call: [{
         call_date: String,
         call_time: String,
-        call_desc: String
+        call_desc: String,
+        call_motive: String
 
     }]
 

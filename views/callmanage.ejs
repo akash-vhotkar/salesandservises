@@ -23,6 +23,10 @@
     #callupdate {
         display: none;
     }
+
+    #checkbox {
+        display: none;
+    }
 </style>
 
 <body>
@@ -121,10 +125,15 @@
 
             <div class="form-group p-3 ">
                 <label for="exampleInputPassword1">lead status </label>
-                <select name="lead_status" id="leadstatus">
+                <select name="lead_status" onchange="display_check()" id="leadstatus">
                     <option value="true">true</option>
                     <option value="false">false</option>
                 </select>
+            </div>
+
+            <div class="p-3" id="checkbox">
+                <input type="checkbox" name="check_status" checked readonly>
+                <label class="m-lg-2"> product has been sold </label>
             </div>
             <div class="form-group p-3">
                 <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
@@ -214,8 +223,11 @@
         const myform = document.querySelector('#myform');
         const reminder = document.querySelector('#addreminder')
         const calldesct = document.querySelector('#calldesc');
+        const checkbox = document.querySelector('#checkbox');
+
 
         function modify(btn) {
+            checkbox.style.display = 'none';
 
             const parent = btn.parentElement.parentElement;
             const c_id = parent.children[0].innerText;
@@ -240,6 +252,7 @@
         function addreminder(btn) {
             myform.style.display = 'none';
             reminder.style.display = 'block';
+            checkbox.style.display = 'none';
 
 
 
@@ -279,6 +292,11 @@
 
 
         // }
+
+        function display_check() {
+            console.log("display block function was executed");
+            checkbox.style.display = 'block';
+        }
 
 
     </script>

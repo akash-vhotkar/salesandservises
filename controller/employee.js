@@ -22,7 +22,7 @@ module.exports = {
         res.render('leadform', { c_id })
     },
     callmanagement: function (req, res) {
-        lead_form.find().then((cust) => {
+        lead_form.find({ lead_status: false }).then((cust) => {
 
             res.render('callmanage', { cust });
 
@@ -74,10 +74,10 @@ module.exports = {
     calldesc: function (req, res) {
         const custid = req.body.c_id;
         lead_form.findOne({ c_id: custid }).then((customer) => {
-            const rem = customer.reminder;
+            const call = customer.call;
             let c_name = customer.c_name;
             let customer_id = customer.c_id
-            res.render('call_desc', { rem, c_name, customer_id })
+            res.render('call_desc', { call, c_name, customer_id })
 
         }).catch(err => {
             if (err) console.log(err);
@@ -91,16 +91,17 @@ module.exports = {
         const calltime = req.body.call_time;
         const calldesc = req.body.call_desc;
         lead_form.findOneAndUpdate({ c_id: custid }, {
-            $pull: { reminder: { _id: callid } }
+            $pull: { call: { _id: callid } }
         }, { new: true }, (err, data) => {
             if (err) console.log(err);
             else if (data) {
                 lead_form.findOneAndUpdate({ c_id: custid }, {
                     $push: {
-                        reminder: {
-                            rem_date: calldate,
-                            rem_time: calltime,
-                            rem_desc: calldesc
+                        call: {
+                            call_date: calldate,
+                            call_time: calltime,
+                            call_desc: calldesc,
+                            call_motive: req.body.call_motive
                         }
                     }
                 }, { new: true }, (err, data) => {
@@ -116,5 +117,34 @@ module.exports = {
 
 
 
+    },
+    addcall: function (req, res) {
+        const custid = req.body.c_id;
+        lead_form.findOneAndUpdate({ c_id: custid }, {
+            $push: {
+                call: {
+                    call_date: req.body.calldate,
+                    call_time: req.body.calltime,
+                    call_desc: req.body.calldesc,
+                    call_motive: req.body.callmotive
+                }
+            }
+        }, { new: true }, (err, data) => {
+            if (err) console.log(err);
+            if (data) {
+                res.redirect('/emp/lead/callmanagement')
+            }
+
+        })
+    },
+    salepage: function (req, res) {
+
+        lead_form.find({ lead_status: true }).then(cust => {
+            res.render('salespage', { cust })
+
+        }).catch(err => {
+            if (err) console.log(err);
+
+        })
     }
 }

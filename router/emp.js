@@ -10,12 +10,20 @@ router.get('/lead', (req, res) => {
 router.post('/lead', (req, res) => {
     employee_controller.add_lead(req, res)
 })
+router.get('/lead/salespage', (req, res) => {
+    employee_controller.salepage(req, res)
+})
 router.get('/lead/callmanagement', (req, res) => {
     employee_controller.callmanagement(req, res);
 })
 router.post('/lead/callmanagement/calldesc', (req, res) => {
     employee_controller.calldesc(req, res);
 })
+router.post('/lead/callmanagement/calldesc/addcall', (req, res) => {
+    employee_controller.addcall(req, res);
+})
+
+
 router.post('/lead/callmanagement/calldesc/callupdate', (req, res) => {
     employee_controller.callupdate(req, res);
 })

@@ -14,6 +14,10 @@
         display: none;
 
     }
+
+    #addcall {
+        display: block;
+    }
 </style>
 
 <body>
@@ -27,6 +31,8 @@
                     <th scope="col">Call date</th>
                     <th scope="col">Call Time</th>
                     <th scope="col">Call Desc</th>
+                    <th scope="col">Call Motive</th>
+
                     <th scope="col">Call update</th>
                 </tr>
             </thead>
@@ -34,21 +40,25 @@
 
 
 
-                <% if(typeof rem !='undefined' ){ %>
-                    <% rem.forEach(i=>{ %>
+                <% if(typeof call !='undefined' ){ %>
+                    <% call.forEach(i=>{ %>
                         <tr>
                             <th scope="row">
                                 <%- i._id %>
                             </th>
                             <td>
-                                <%- i.rem_date %>
+                                <%- i.call_date %>
                             </td>
                             <td>
-                                <%- i.rem_time %>
+                                <%- i.call_time %>
                             </td>
                             <td>
-                                <%- i.rem_desc%>
+                                <%- i.call_desc%>
                             </td>
+                            <td>
+                                <%- i.call_motive%>
+                            </td>
+
                             <td><button onclick="callupdate(this)" class="btn btn-primary">update call</button></td>
 
                         </tr>
@@ -66,6 +76,56 @@
 
             </tbody>
         </table>
+
+        <form action="/emp/lead/callmanagement/calldesc/addcall" class="w-75 m-auto" id="addcall" method="POST">
+            <div>
+                <h1 class="text-center">Call Addcall to the customer</h1>
+            </div>
+
+            <div class="form-group p-3">
+                <label>Customer Id <span class="star">*</span></label>
+                <input type="text" value="<%- customer_id%>" readonly class="form-control" name="c_id"
+                    id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Customer Id">
+
+            </div>
+
+
+
+
+            <div class="form-group p-3">
+
+                <label>Next Call Date <span class="star">*</span></label>
+                <input type="date" name="calldate" id="calldata" class="form-control" aria-describedby="emailHelp"
+                    required>
+
+            </div>
+            <div class="form-group p-3">
+                <label> call Time <span class="star">*</span></label>
+                <input type="time" class="form-control" id="calltime" name="calltime" id="exampleInputEmail1"
+                    aria-describedby="emailHelp">
+
+            </div>
+            <div class="form-group p-3">
+                <label>Call Desc<span class="star">*</span></label>
+                <input type="text" name="calldesc" id="calldesc" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter desc about the call" required>
+
+            </div>
+
+            <div class="form-group p-3">
+                <label>Call motive<span class="star">*</span></label>
+                <input type="text" name="callmotive" id="calldesc" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter desc about the call" required>
+
+            </div>
+
+
+            <div class="form-group p-3">
+                <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
+                    value="Submit">
+            </div>
+
+        </form>
 
 
 
@@ -108,6 +168,12 @@
                     aria-describedby="emailHelp" placeholder="Enter desc about the call" required>
 
             </div>
+            <div class="form-group p-3">
+                <label>Call motive<span class="star">*</span></label>
+                <input type="text" name="call_motive" id="calldesc" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter desc about the call" required>
+
+            </div>
 
 
             <div class="form-group p-3">
@@ -128,6 +194,7 @@
         function callupdate(btn) {
             const dc = document.querySelector('#callupdate')
             dc.style.display = 'block';
+
             let parent = btn.parentElement.parentElement;
             let call_id = parent.children[0].innerText;
             let call_date = parent.children[1].innerText;
