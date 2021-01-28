@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Service details</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="text-center"> Service datails </h1>
+
+
+
+
+        <table class="table table-striped">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Customer email</th>
+                    <th scope="col">Customer mobile</th>
+                    <th scope="col">Pro Name</th>
+                    <th scope="col">Service Description</th>
+                    <th scope="col">service type</th>
+                    <th scope="col">service status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+
+                <% if(typeof ser !='undefined' ){ %>
+                    <% ser.forEach(i=>{ %>
+                        <tr>
+                            <th scope="row">
+                                <%- i.c_name %>
+                            </th>
+                            <td>
+                                <%- i.c_email %>
+                            </td>
+                            <td>
+                                <%- i.c_mobile %>
+                            </td>
+                            <td>
+                                <%- i.pro_name%>
+                            </td>
+                            <td>
+                                <%- i.ser_desc%>
+                            </td>
+                            <td>
+                                <%- i.ser_type%>
+                            </td>
+
+                            <td>
+                                <%- i.ser_status%>
+                            </td>
+
+
+                        </tr>
+
+
+
+                        <%}); %>
+                            <% } %>
+
+
+
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
