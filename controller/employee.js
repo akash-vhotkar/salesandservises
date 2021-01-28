@@ -1,5 +1,6 @@
 const strongid = require('shortid');
 const lead_form = require('../model/lead');
+const service = require('../model/service');
 module.exports = {
     add_lead: function (req, res) {
         const lead_data = {
@@ -145,6 +146,35 @@ module.exports = {
         }).catch(err => {
             if (err) console.log(err);
 
+        })
+    },
+    servicepage: function (req, res) {
+        res.render('sericepage')
+    },
+    servicepost: function (req, res) {
+
+        const servise_data = {
+            c_name: req.body.c_name,
+            c_email: req.body.c_email,
+            c_mobile: req.body.c_mobile,
+            pro_name: req.body.pro_name,
+            ser_desc: req.body.ser_desc,
+            ser_type: req.body.ser_type,
+            ser_status: req.body.ser_status
+        }
+        service.create(servise_data).then((ser) => {
+            res.render('sericepage')
+        }).catch(err => {
+            console.log(err);
+        })
+
+    },
+    servise_details: function (req, res) {
+        service.find().then(ser => {
+            res.render('service_table', { ser })
+
+        }).catch(err => {
+            if (err) console.log(err);
         })
     }
 }

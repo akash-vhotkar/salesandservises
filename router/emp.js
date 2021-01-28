@@ -22,6 +22,18 @@ router.post('/lead/callmanagement/calldesc', (req, res) => {
 router.post('/lead/callmanagement/calldesc/addcall', (req, res) => {
     employee_controller.addcall(req, res);
 })
+router.get('/lead/service', (req, res) => {
+    employee_controller.servicepage(req, res);
+
+})
+router.get('/lead/service/details', (req, res) => {
+    employee_controller.servise_details(req, res);
+
+})
+
+router.post('/lead/servicepage', (req, res) => {
+    employee_controller.servicepost(req, res);
+})
 
 
 router.post('/lead/callmanagement/calldesc/callupdate', (req, res) => {
