@@ -15,6 +15,14 @@ const empschema = new mongoose.Schema({
     cop_name: {
         type: String,
         required: false
+    },
+    type: {
+        type: String,
+        required: false
+    },
+    password: {
+        type: String,
+        required: false
     }
 
 })

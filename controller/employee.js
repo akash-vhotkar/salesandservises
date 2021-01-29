@@ -1,4 +1,5 @@
 const strongid = require('shortid');
+const employee = require('../model/employee');
 const lead_form = require('../model/lead');
 const service = require('../model/service');
 module.exports = {
@@ -20,7 +21,8 @@ module.exports = {
     },
     get_leadform: function (req, res) {
         const c_id = strongid.generate();
-        res.render('leadform', { c_id })
+        const type = req.session.type;
+        res.render('leadform', { c_id, type })
     },
     callmanagement: function (req, res) {
         lead_form.find({ lead_status: false }).then((cust) => {
@@ -176,5 +178,28 @@ module.exports = {
         }).catch(err => {
             if (err) console.log(err);
         })
+    },
+    login: function (req, res) {
+        const username = req.body.username;
+        const password = req.body.password;
+        req.session.username = username;
+        employee.findOne({ emp_name: username }).then(emp => {
+            if (emp && emp.password == password) {
+                if (emp.type == "employee") {
+                    req.session.type = "employee";
+                    res.redirect('/emp/');
+                }
+                if (emp.type == 'admin') {
+                    req.session.type = "admin"
+                    res.redirect('/dept/')
+                }
+            }
+            else {
+                res.redirect('/emp/login')
+            }
+        }).catch(err => {
+            if (err) console.log(err);
+        })
+
     }
 }
