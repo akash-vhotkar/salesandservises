@@ -12,7 +12,12 @@ module.exports = {
         }
         lead_form.create(lead_data).then(() => {
             const c_id = strongid.generate();
-            res.render('leadform', { c_id })
+            if (req.session.type == 'admin') {
+                res.render('leadform', { c_id })
+            }
+            else {
+                res.send('<h1>you dont have access to thies page</h1>')
+            }
 
         }).catch(err => {
             console.log(err);
@@ -23,6 +28,8 @@ module.exports = {
         const c_id = strongid.generate();
         const type = req.session.type;
         res.render('leadform', { c_id, type })
+
+
     },
     callmanagement: function (req, res) {
         lead_form.find({ lead_status: false }).then((cust) => {

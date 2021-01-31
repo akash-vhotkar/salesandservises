@@ -18,7 +18,6 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }))
-
 app.use('/dept', require('./router/depart'))
 app.use('/emp', require('./router/emp'));
 const port = process.env.PORT || 1234;

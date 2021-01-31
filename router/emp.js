@@ -32,6 +32,9 @@ router.post('/login', (req, res) => {
 router.get('/lead/service', (req, res) => {
     employee_controller.servicepage(req, res);
 })
+router.get('/register', (req, res) => {
+    employee_controller.getregister(req, res);
+})
 
 
 router.get('/lead/service/details', (req, res) => {
