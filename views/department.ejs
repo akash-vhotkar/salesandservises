@@ -17,6 +17,12 @@
     .star {
         color: red;
     }
+
+    .depts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+    }
 </style>
 
 <body>
@@ -42,127 +48,93 @@
                     <%}); %>
             </div>
             <% } %>
+    </div>
+
+
+
+    <div class="container depts shadow">
 
 
 
 
-                <div class="col-md-7 m-auto mb-3 shadow">
-                    <div class="d-flex justify-content-center align-self-center">
+        <% if(typeof depts !='undefined' ){ %>
+            <% depts.forEach(i=>{ %>
 
-                        <div class="card m-5" style="width: 18rem;">
-                            <img class="card-img-top"
-                                src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">Another Department</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of
-                                    the
-                                    card's content.</p>
-                                <a href="#addemp" class="btn btn-primary   w-100">Add Employees</a>
-                                <a href="/dept/dept1" class="btn btn-primary  mt-2 w-100">Show Employees</a>
-                            </div>
-                        </div>
-
-
-
-                        <div class="card m-5" style="width: 18rem;">
-                            <img class="card-img-top"
-                                src="https://cdn.pixabay.com/photo/2020/03/10/08/56/fire-department-4918312__340.png"
-                                alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">FIre Department</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the
-                                    bulk of
-                                    the
-                                    card's content.</p>
-                                <a href="#addemp" class="btn btn-primary   w-100">Add Employees</a>
-                                <a href="/dept/dept2" class="btn btn-primary  mt-2 w-100">Show Employees</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-center align-self-center">
-
-
-
-                        <% if(typeof depts !='undefined' ){ %>
-                            <div>
-                                <% depts.forEach(i=>{ %>
-
-                                    <div class="card m-5" style="width: 25rem;">
-                                        <img class="card-img-top"
-                                            src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <%- i.dept_name%>
-                                            </h5>
-                                            <p class="card-text">
-                                                <%- i.dept_desc%>
-                                            </p>
-                                            <a href="#addemp" class="btn btn-primary   w-100"> Add Department</a>
-                                            <a href="/dept/getemp/<%-i.dept_id%>"
-                                                class="btn btn-primary  mt-2 w-100">Show or
-                                                Add
-                                                Employees</a>
-                                        </div>
-                                    </div>
-
-
-
-
-                                    <%}); %>
-                            </div>
-                            <% } %>
-
-
-
-
-                    </div>
-
-                    <div class="d-flex align-self-center justify-content-center ">
-                        <button type="button" class="btn btn-primary w-75 mb-4 mt-1"> Add Deapartment </button>
+                <div class="card m-5" style="width: 15rem;">
+                    <img class="card-img-top"
+                        src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%- i.dept_name%>
+                        </h5>
+                        <p class="card-text">
+                            <%- i.dept_desc%>
+                        </p>
+                        <a href="#addemp" class="btn btn-primary   w-100"> Add Department</a>
+                        <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show or
+                            Add
+                            Employees</a>
                     </div>
                 </div>
-                <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto">
 
 
-                    <form action="/dept/adddept" method="POST">
-                        <div>
-                            <h1>Add Department</h1>
-                        </div>
-                        <div class="form-group p-3">
-
-                            <label>Department Name <span class="star">*</span></label>
-                            <input type="text" class="form-control" name="dept_name" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Enter Department Name " required>
-
-                        </div>
-                        <div class="form-group p-3">
-                            <label>Department Id <span class="star">*</span></label>
-                            <input type="text" name="dept_id" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" value="<%- dept_id%>" readonly>
-
-                        </div>
-                        <div class="form-group p-3">
-                            <label>Department desc<span class="star">*</span></label>
-                            <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Enter department desc" required>
-
-                        </div>
 
 
-                        <div class="form-group p-3">
-                            <button type="submit" class="form-control p-2 bg-primary text-white">
-                                Add Department
-                            </button>
-                        </div>
+                <%}); %>
 
-                    </form>
+                    <% } %>
 
 
-                </div>
+
+
+
+    </div>
+    <div id="addemp" class="col-md-7 mt-4 d-flex justify-content-center align-self-center shadow m-auto">
+
+
+        <form action="/dept/adddept" method="POST" enctype="multipart/form-data">
+            <div>
+                <h1>Add Department</h1>
+            </div>
+            <div class="form-group p-3">
+
+                <label>Department Name <span class="star">*</span></label>
+                <input type="text" class="form-control" name="dept_name" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Department Name " required>
+
+            </div>
+            <div class="form-group p-3">
+                <label>Department Id <span class="star">*</span></label>
+                <input type="text" name="dept_id" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" value="<%- dept_id%>" readonly>
+
+            </div>
+            <div class="form-group p-3">
+                <label>Department Image <span class="star">*</span></label>
+                <input type="file" name="dept_image" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" readonly>
+
+            </div>
+
+            <div class="form-group p-3">
+                <label>Department desc<span class="star">*</span></label>
+                <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter department desc" required>
+
+            </div>
+
+
+            <div class="form-group p-3">
+                <button type="submit" class="form-control p-2 bg-primary text-white">
+                    Add Department
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
 
 
     </div>
