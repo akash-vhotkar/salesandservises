@@ -10,18 +10,19 @@ module.exports = {
             c_email: req.body.c_email,
             lead_status: req.body.lead_status
         }
-        lead_form.create(lead_data).then(() => {
-            const c_id = strongid.generate();
-            if (req.session.type == 'admin') {
-                res.render('leadform', { c_id })
-            }
-            else {
-                res.send('<h1>you dont have access to thies page</h1>')
-            }
+        if (req.session.type) {
+            lead_form.create(lead_data).then(() => {
+                const c_id = strongid.generate();
 
-        }).catch(err => {
-            console.log(err);
-        })
+                res.render('leadform', { c_id, type: "both" })
+
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+        else {
+            res.redirect('/emp/login')
+        }
 
     },
     get_leadform: function (req, res) {

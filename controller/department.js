@@ -90,12 +90,11 @@ module.exports = {
 
 
     },// http://localhost:1234/dept/GYfeVf-91
-    get_employees: function (id, res) {
+    get_employees: function (id, req, res) {
         if (req.session.type) {
             if (req.session.type == 'admin') {
                 const emp_id = strongid.generate();
                 const dept_id = id;
-
                 departments.findOne({ dept_id: id }).then(depts => {
 
                     if (depts.emp_dept != null) {
