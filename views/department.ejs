@@ -19,88 +19,150 @@
         color: red;
     }
 
-    .depts {
+    /* .depts {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 10px;
-    }
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 0px;
+    } */
 </style>
 
 <body>
-    <!-- <nav class="navbar navbar-light bg-light d-flex justify-content-end">
+    <nav class="navbar navbar-light bg-light d-flex justify-content-end">
         <form action="/dept/getallemp" class="form-inline">
             <button class="btn btn-primary" type="submit">GET All Employees </button>
-
         </form>
-    </nav> -->
+    </nav>
+
+    <!-- headfing of department page   -->
+
+    <div class="container">
+        <h1 class="text-center"> Department Page</h1>
+        <% if(typeof err !='undefined' ){ %>
+            <div onclick="de()">
+                <% err.forEach(i=>{ %>
+                    <div class="alert alert-warning alert-dismissible fade show mb-2" id="myalert" role="alert">
+                        <strong>alerts </strong>
+                        <%- i.msg %>
+                            <button type="button" class="btn-close" id="mybtn" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                    </div>
+                    <%}); %>
+            </div>
+            <% } %>
+    </div>
+
+
+
+
+    <!---------------------- tabs of the home page ---------------------------->
+
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#gridv" role="tab" aria-controls="home"
                     aria-selected="true">Grid View</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                    aria-controls="profile" aria-selected="false">Mobile View</a>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tabelv" role="tab" aria-controls="profile"
+                    aria-selected="false">Tabel View</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#add_dept" role="tab"
                     aria-controls="contact" aria-selected="false">add Department</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="emp-tab" data-toggle="tab" href="#emps" role="tab" aria-controls="profile"
+                    aria-selected="false">all employees</a>
+            </li>
+
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <!--------------------------- show departments with grid system  ----------------------->
+            <div class="tab-pane fade show active" id="gridv" role="tabpanel" aria-labelledby="home-tab">
+                <div class="container shadow depts d-flex ">
+                    <div class="row">
 
 
 
 
-                <div class="container shadow depts">
+                        <% if(typeof depts !='undefined' ){ %>
+                            <% depts.forEach(i=>{ %>
 
-
-
-
-                    <% if(typeof depts !='undefined' ){ %>
-                        <% depts.forEach(i=>{ %>
-
-                            <div class="card m-5" style="width: 20rem;">
-                                <img class="card-img-top"
-                                    src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
-                                    alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%- i.dept_name%>
-                                    </h5>
-                                    <p class="card-text">
-                                        <%- i.dept_desc%>
-                                    </p>
-                                    <a href="#addemp" class="btn btn-primary   w-100"> Add Department</a>
-                                    <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show or
-                                        Add
-                                        Employees</a>
+                                <div class="card col-md-3 m-5">
+                                    <img class="card-img-top"
+                                        src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
+                                        alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <%- i.dept_name%>
+                                        </h5>
+                                        <p class="card-text">
+                                            <%- i.dept_desc%>
+                                        </p>
+                                        <!-- <a href="" class="btn btn-primary   w-100"> Add Department</a> -->
+                                        <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show
+                                            or
+                                            Add
+                                            Employees</a>
+                                    </div>
                                 </div>
-                            </div>
-
-
-
-
-                            <%}); %>
-                                <% } %>
-
-
-
-
+                                <%}); %>
+                                    <% } %>
+                    </div>
                 </div>
-
-
-
-
-
-
-
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> profile two</div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto">
+
+
+
+            <!----------------------------------- tabel view of the departmets tabs  --------------------------->
+            <div class="tab-pane fade" id="tabelv" role="tabpanel" aria-labelledby="profile-tab">
+
+                <div class=" dept_table">
+                    <table class="table table-striped" id="calldesc">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th scope="col">department id</th>
+                                <th scope="col">department name</th>
+                                <th scope="col">department desc</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                            <% if(typeof depts !='undefined' ){ %>
+                                <% depts.forEach(i=>{ %>
+                                    <tr>
+                                        <th scope="row">
+                                            <%- i.dept_id %>
+                                        </th>
+                                        <td>
+                                            <%- i.dept_name %>
+                                        </td>
+                                        <td>
+                                            <%- i.dept_desc %>
+                                        </td>
+
+
+                                    </tr>
+
+
+
+                                    <%}); %>
+                                        <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-----------------------------  add department form  ------------------------------------->
+
+            <div class="tab-pane fade" id="add_dept" role="tabpanel" aria-labelledby="contact-tab">
+                <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto mt-5">
 
 
                     <form action="/dept/adddept" method="POST">
@@ -121,13 +183,18 @@
 
                         </div>
                         <div class="form-group p-3">
+                            <label>Department Image <span class="star">*</span></label>
+                            <input type="file" name="dept_image" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" readonly>
+
+                        </div>
+
+                        <div class="form-group p-3">
                             <label>Department desc<span class="star">*</span></label>
                             <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" placeholder="Enter department desc" required>
 
                         </div>
-
-
                         <div class="form-group p-3">
                             <button type="submit" class="form-control p-2 bg-primary text-white">
                                 Add Department
@@ -140,27 +207,67 @@
                 </div>
 
             </div>
+            <div class="tab-pane fade show active" id="emps" role="tabpanel" aria-labelledby="home-tab">
+
+
+                <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
+                    <table class="table table-striped">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th scope="col">Employee id</th>
+                                <th scope="col">Employee Name</th>
+                                <th scope="col">Employe email</th>
+                                <th scope="col">Company name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                            <% if(typeof emp !='undefined' ){ %>
+                                <% emp.forEach(i=>{ %>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <%- i.emp_id %>
+                                        </th>
+                                        <td>
+                                            <%- i.emp_name %>
+                                        </td>
+                                        <td>
+                                            <%- i.emp_email%>
+                                        </td>
+                                        <td>
+                                            <%- i.cop_name%>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <%}); %>
+                                        <% } %>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+
+
+
         </div>
 
     </div>
 
-    <div class="container">
-        <h1 class="text-center"> Department Page</h1>
-
-        <% if(typeof err !='undefined' ){ %>
-            <div onclick="de()">
-                <% err.forEach(i=>{ %>
-                    <div class="alert alert-warning alert-dismissible fade show mb-2" id="myalert" role="alert">
-                        <strong>alerts </strong>
-                        <%- i.msg %>
-                            <button type="button" class="btn-close" id="mybtn" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                    </div>
-                    <%}); %>
-            </div>
-            <% } %>
-
-    </div>
 
 
 
@@ -174,7 +281,7 @@
 
 
 
-
+    <!---------------------------------   boootstrap links --------------------------------->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -184,11 +291,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <!----------------------------- javascript here --------------------------------->
+
     <script>
-
-
-
-
         function myfun() {
             const btn = document.querySelector('#change_text')
             btn.innerHTML = "Employee added"
