@@ -77,53 +77,6 @@
             </button>
         </p>
         <div class="collapse" id="collapseExample">
-            <div class=" dept_table">
-                <table class="table table-striped" id="calldesc">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th scope="col">department id</th>
-                            <th scope="col">department name</th>
-                            <th scope="col">department desc</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-
-
-                        <% if(typeof depts !='undefined' ){ %>
-                            <% depts.forEach(i=>{ %>
-                                <tr>
-                                    <th scope="row">
-                                        <%- i.dept_id %>
-                                    </th>
-                                    <td>
-                                        <%- i.dept_name %>
-                                    </td>
-                                    <td>
-                                        <%- i.dept_desc %>
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <%}); %>
-                                    <% } %>
-
-
-
-
-
-
-
-                    </tbody>
-                </table>
-
-
-            </div>
-
 
 
         </div>
