@@ -59,28 +59,30 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#gridv" role="tab" aria-controls="home"
-                    aria-selected="true">Grid View</a>
+                <a class="nav-link active" id="grid-tab" data-toggle="tab" href="#gridv" role="tab"
+                    aria-controls="gridv" aria-selected="true">Grid View</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tabelv" role="tab" aria-controls="profile"
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tabelv" role="tab" aria-controls="tabelv"
                     aria-selected="false">Tabel View</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#add_dept" role="tab"
-                    aria-controls="contact" aria-selected="false">add Department</a>
+                    aria-controls="add_dept" aria-selected="false">add Department</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="emp-tab" data-toggle="tab" href="#emps" role="tab" aria-controls="profile"
-                    aria-selected="false">all employees</a>
+                <a class="nav-link" id="emp-tab" data-toggle="tab" href="#myemp" role="tab" aria-controls="myemp"
+                    aria-selected="false">All Employees</a>
             </li>
+
+
 
         </ul>
 
         <div class="tab-content" id="myTabContent">
 
             <!--------------------------- show departments with grid system  ----------------------->
-            <div class="tab-pane fade show active" id="gridv" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="gridv" role="tabpanel" aria-labelledby="grid-tab">
                 <div class="container shadow depts d-flex ">
                     <div class="row">
 
@@ -210,9 +212,10 @@
             </div>
 
 
-            <!-- form sample -->
-            <div class="tab-pane fade show active" id="emps" role="tabpanel" aria-labelledby="emp-tab">
 
+            <!-- all employees data -->
+
+            <div class="tab-pane fade" id="myemp" role="tabpanel" aria-labelledby="emp-tab">
 
                 <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
                     <table class="table table-striped">
@@ -264,7 +267,7 @@
 
             </div>
 
-
+            <!---- tab panel end -->
 
 
 

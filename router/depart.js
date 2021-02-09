@@ -5,21 +5,26 @@ const depart1 = require('../model/depart1')
 const shortid = require('shortid');
 
 
-// post requist of department forms
 
+// post requist of department forms
 // add employees
 router.post('/:id/addemp', (req, res) => {
     const controler = require('../controller/department');
     controler.add_employees(req.params.id, req, res);
 })
-// add department 
 
+
+
+// add department 
 router.post('/adddept', (req, res) => {
     const depart_con = require('../controller/department');
     depart_con.add_department(req, res);
 })
-// ger reuist of the department page
 
+
+
+
+// ger reuist of the department page
 router.get('/', (req, res) => {
     const dept_controller = require('../controller/department');
     dept_controller.all_departments(req, res);
