@@ -6,7 +6,8 @@ const employees = require('../model/employee');
 const multer_st = require('multer-gridfs-storage');
 const crypt = require('crypto');
 module.exports = {
-    add_department: function (req, res) {
+    add_department: function (req, res, filename) {
+
         if (req.session.type) {
             if (req.session.type == 'admin') {
                 departments.findOne({ dept_name: req.body.dept_name }).then(dept => {
@@ -20,7 +21,8 @@ module.exports = {
                         const newdepartment = {
                             dept_name: req.body.dept_name,
                             dept_desc: req.body.dept_desc,
-                            dept_id: req.body.dept_id
+                            dept_id: req.body.dept_id,
+                            dept_image: filename
                         }
                         departments.create(newdepartment).then(() => {
 

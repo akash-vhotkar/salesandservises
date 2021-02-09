@@ -16,6 +16,10 @@ const schema = new mongoose.Schema({
         emp_id: String,
         emp_email: String,
         cop_name: String
-    }]
+    }],
+    dept_image: {
+        type: String,
+        required: false
+    }
 })
 module.exports = mongoose.model('dept1', schema);

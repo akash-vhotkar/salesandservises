@@ -93,9 +93,7 @@
                             <% depts.forEach(i=>{ %>
 
                                 <div class="card col-md-3 m-5">
-                                    <img class="card-img-top"
-                                        src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
-                                        alt="Card image cap">
+                                    <img class="card-img-top" src="image/<%- i.dept_image %>" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             <%- i.dept_name%>
@@ -125,6 +123,7 @@
                     <table class="table table-striped" id="calldesc">
                         <thead class="bg-dark text-white">
                             <tr>
+
                                 <th scope="col">department id</th>
                                 <th scope="col">department name</th>
                                 <th scope="col">department desc</th>
@@ -138,6 +137,7 @@
                             <% if(typeof depts !='undefined' ){ %>
                                 <% depts.forEach(i=>{ %>
                                     <tr>
+
                                         <th scope="row">
                                             <%- i.dept_id %>
                                         </th>
@@ -168,7 +168,7 @@
                 <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto mt-5">
 
 
-                    <form action="/dept/adddept" method="POST">
+                    <form action="/dept/adddept" method="POST" enctype="multipart/form-data">
                         <div>
                             <h1>Add Department</h1>
                         </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="form-group p-3">
                             <label>Department Image <span class="star">*</span></label>
-                            <input type="file" name="dept_image" class="form-control" id="exampleInputEmail1"
+                            <input type="file" name="file" class="form-control" id="exampleInputEmail1"
                                 aria-describedby="emailHelp" readonly>
 
                         </div>
