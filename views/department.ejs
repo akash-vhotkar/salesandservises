@@ -72,7 +72,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="emp-tab" data-toggle="tab" href="#myemp" role="tab" aria-controls="myemp"
-                    aria-selected="false">add Department</a>
+                    aria-selected="false">All Employees</a>
             </li>
 
 
@@ -213,6 +213,54 @@
             <!-- all employees data -->
 
             <div class="tab-pane fade" id="myemp" role="tabpanel" aria-labelledby="emp-tab">
+
+                <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
+                    <table class="table table-striped">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th scope="col">Employee id</th>
+                                <th scope="col">Employee Name</th>
+                                <th scope="col">Employe email</th>
+                                <th scope="col">Company name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                            <% if(typeof emp !='undefined' ){ %>
+                                <% emp.forEach(i=>{ %>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <%- i.emp_id %>
+                                        </th>
+                                        <td>
+                                            <%- i.emp_name %>
+                                        </td>
+                                        <td>
+                                            <%- i.emp_email%>
+                                        </td>
+                                        <td>
+                                            <%- i.cop_name%>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <%}); %>
+                                        <% } %>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
 
             </div>
 
