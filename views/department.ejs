@@ -10,93 +10,6 @@
     <title>Department</title>
 </head>
 <style>
-    @media (max-width: 768px) {
-        .carousel-inner .carousel-item>div {
-            display: none;
-        }
-
-        .carousel-inner .carousel-item>div:first-child {
-            display: block;
-        }
-    }
-
-    .carousel-inner .carousel-item.active,
-    .carousel-inner .carousel-item-next,
-    .carousel-inner .carousel-item-prev {
-        display: flex;
-    }
-
-    /* display 3 */
-    @media (min-width: 768px) {
-
-        .carousel-inner .carousel-item-right.active,
-        .carousel-inner .carousel-item-next {
-            transform: translateX(33.333%);
-        }
-
-        .carousel-inner .carousel-item-left.active,
-        .carousel-inner .carousel-item-prev {
-            transform: translateX(-33.333%);
-        }
-    }
-
-    .carousel-inner .carousel-item-right,
-    .carousel-inner .carousel-item-left {
-        transform: translateX(0);
-    }
-
-
-
-    /* medium - display 2  */
-    @media (min-width: 768px) {
-
-        .carousel-inner .carousel-item-right.active,
-        .carousel-inner .carousel-item-next {
-            transform: translateX(50%);
-        }
-
-        .carousel-inner .carousel-item-left.active,
-        .carousel-inner .carousel-item-prev {
-            transform: translateX(-50%);
-        }
-    }
-
-    /* large - display 3 */
-    @media (min-width: 992px) {
-
-        .carousel-inner .carousel-item-right.active,
-        .carousel-inner .carousel-item-next {
-            transform: translateX(33%);
-        }
-
-        .carousel-inner .carousel-item-left.active,
-        .carousel-inner .carousel-item-prev {
-            transform: translateX(-33%);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .carousel-inner .carousel-item>div {
-            display: none;
-        }
-
-        .carousel-inner .carousel-item>div:first-child {
-            display: block;
-        }
-    }
-
-    .carousel-inner .carousel-item.active,
-    .carousel-inner .carousel-item-next,
-    .carousel-inner .carousel-item-prev {
-        display: flex;
-    }
-
-    .carousel-inner .carousel-item-right,
-    .carousel-inner .carousel-item-left {
-        transform: translateX(0);
-    }
-
-
     .card img {
         width: 100%;
         height: 50%;
@@ -114,131 +27,124 @@
 </style>
 
 <body>
-    <nav class="navbar navbar-light bg-light d-flex justify-content-end">
+    <!-- <nav class="navbar navbar-light bg-light d-flex justify-content-end">
         <form action="/dept/getallemp" class="form-inline">
             <button class="btn btn-primary" type="submit">GET All Employees </button>
 
         </form>
-    </nav>
+    </nav> -->
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                    aria-selected="true">Grid View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">Mobile View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                    aria-controls="contact" aria-selected="false">add Department</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
 
-    <div id="myCarousel" class="carousel slide w-100" data-ride="carousel">
-        <div class="carousel-inner w-100" role="listbox">
-            <div class="carousel-item active">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=1">
+
+
+                <div class="container shadow depts">
+
+
+
+
+                    <% if(typeof depts !='undefined' ){ %>
+                        <% depts.forEach(i=>{ %>
+
+                            <div class="card m-5" style="width: 20rem;">
+                                <img class="card-img-top"
+                                    src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
+                                    alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%- i.dept_name%>
+                                    </h5>
+                                    <p class="card-text">
+                                        <%- i.dept_desc%>
+                                    </p>
+                                    <a href="#addemp" class="btn btn-primary   w-100"> Add Department</a>
+                                    <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show or
+                                        Add
+                                        Employees</a>
+                                </div>
+                            </div>
+
+
+
+
+                            <%}); %>
+                                <% } %>
+
+
+
+
                 </div>
+
+
+
+
+
+
+
             </div>
-            <div class="carousel-item">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=2">
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> profile two</div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto">
+
+
+                    <form action="/dept/adddept" method="POST">
+                        <div>
+                            <h1>Add Department</h1>
+                        </div>
+                        <div class="form-group p-3">
+
+                            <label>Department Name <span class="star">*</span></label>
+                            <input type="text" class="form-control" name="dept_name" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter Department Name " required>
+
+                        </div>
+                        <div class="form-group p-3">
+                            <label>Department Id <span class="star">*</span></label>
+                            <input type="text" name="dept_id" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" value="<%- dept_id%>" readonly>
+
+                        </div>
+                        <div class="form-group p-3">
+                            <label>Department desc<span class="star">*</span></label>
+                            <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter department desc" required>
+
+                        </div>
+
+
+                        <div class="form-group p-3">
+                            <button type="submit" class="form-control p-2 bg-primary text-white">
+                                Add Department
+                            </button>
+                        </div>
+
+                    </form>
+
+
                 </div>
-            </div>
-            <div class="carousel-item">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=3">
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=4">
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=5">
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="col-lg-4 col-md-6">
-                    <img class="img-fluid" src="http://placehold.it/350x180?text=6">
-                </div>
+
             </div>
         </div>
-        <a class="carousel-control-prev bg-dark w-auto" href="#myCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next bg-dark w-auto" href="#myCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+
     </div>
 
-
-    <div class="container text-center my-3">
-        <h2 class="font-weight-light">Bootstrap 4 - Multi Item Carousel</h2>
-        <div class="row mx-auto my-auto">
-            <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
-                <div class="carousel-inner w-100" role="listbox">
-                    <div class="carousel-item ">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <img class="img-fluid" src="http://placehold.it/380?text=1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <h1>hgjk</h1>
-                                <img class="img-fluid" src="http://placehold.it/380?text=2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <img class="img-fluid" src="http://placehold.it/380?text=3">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <img class="img-fluid" src="http://placehold.it/380?text=4">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <img class="img-fluid" src="http://placehold.it/380?text=5">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="col-md-4">
-                            <div class="card card-body">
-                                <img class="img-fluid" src="http://placehold.it/380?text=6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle"
-                        aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle"
-                        aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-        <h5 class="mt-2">Advances one slide at a time</h5>
-    </div>
-
-
-
-
-
-
-
-
-
-    <!-- <div class="container">
+    <div class="container">
         <h1 class="text-center"> Department Page</h1>
 
         <% if(typeof err !='undefined' ){ %>
@@ -263,118 +169,22 @@
 
 
 
-    <div class="container shadow depts">
 
 
 
 
-        <% if(typeof depts !='undefined' ){ %>
-            <% depts.forEach(i=>{ %>
-
-                <div class="card m-5" style="width: 20rem;">
-                    <img class="card-img-top"
-                        src="https://cdn.pixabay.com/photo/2017/08/01/16/43/hanger-2566555__340.jpg"
-                        alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <%- i.dept_name%>
-                        </h5>
-                        <p class="card-text">
-                            <%- i.dept_desc%>
-                        </p>
-                        <a href="#addemp" class="btn btn-primary   w-100"> Add Department</a>
-                        <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show or
-                            Add
-                            Employees</a>
-                    </div>
-                </div>
 
 
-
-
-                <%}); %>
-                    <% } %>
-
-
-
-
-    </div> -->
-
-
-
-
-    <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto">
-
-
-        <form action="/dept/adddept" method="POST">
-            <div>
-                <h1>Add Department</h1>
-            </div>
-            <div class="form-group p-3">
-
-                <label>Department Name <span class="star">*</span></label>
-                <input type="text" class="form-control" name="dept_name" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter Department Name " required>
-
-            </div>
-            <div class="form-group p-3">
-                <label>Department Id <span class="star">*</span></label>
-                <input type="text" name="dept_id" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" value="<%- dept_id%>" readonly>
-
-            </div>
-            <div class="form-group p-3">
-                <label>Department desc<span class="star">*</span></label>
-                <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter department desc" required>
-
-            </div>
-
-
-            <div class="form-group p-3">
-                <button type="submit" class="form-control p-2 bg-primary text-white">
-                    Add Department
-                </button>
-            </div>
-
-        </form>
-
-
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
-        integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
-        integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script>
-
-        $('#recipeCarousel').carousel({
-            interval: 10000
-        })
-
-        $('.carousel .carousel-item').each(function () {
-            var minPerSlide = 3;
-            var next = $(this).next();
-            if (!next.length) {
-                next = $(this).siblings(':first');
-            }
-            next.children(':first-child').clone().appendTo($(this));
-
-            for (var i = 0; i < minPerSlide; i++) {
-                next = next.next();
-                if (!next.length) {
-                    next = $(this).siblings(':first');
-                }
-
-                next.children(':first-child').clone().appendTo($(this));
-            }
-        });
-
-
 
 
 
