@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const depart1 = require('../model/depart1')
 const shortid = require('shortid');
+const multer = require('multer')
+const gridfsstorage = require('multer-gridfs-storage')
+const Grid = require('gridfs-stream')
 
 
 
