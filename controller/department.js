@@ -57,7 +57,6 @@ module.exports = {
                     departments.find().then(depts => {
                         const err = req.session.err;
                         req.session.err = null;
-
                         const dept_id = strongid.generate();
                         res.render('department', { depts, dept_id, err })
 
@@ -69,7 +68,17 @@ module.exports = {
                 else {
                     departments.find().then(depts => {
                         const dept_id = strongid.generate();
-                        res.render('department', { depts, dept_id })
+                        employees.find().then(employee => {
+                            const emp = employee;
+                            res.render('department', { depts, dept_id, emp })
+
+                        })
+                            .catch(err => {
+                                console.log(err);
+                            })
+
+
+
 
                     }).catch(err => {
                         console.log(err);
