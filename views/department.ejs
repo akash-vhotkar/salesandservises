@@ -18,6 +18,12 @@
     .star {
         color: red;
     }
+
+    /* .depts {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 0px;
+    } */
 </style>
 
 <body>
@@ -27,7 +33,7 @@
         </form>
     </nav>
 
-    <!-- heading of department page   -->
+    <!-- headfing of department page   -->
 
     <div class="container">
         <h1 class="text-center"> Department Page</h1>
@@ -44,16 +50,6 @@
             </div>
             <% } %>
     </div>
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -80,7 +76,6 @@
             </li>
 
         </ul>
-
 
         <div class="tab-content" id="myTabContent">
 
@@ -151,6 +146,7 @@
                                             <%- i.dept_desc %>
                                         </td>
 
+
                                     </tr>
 
 
@@ -169,7 +165,8 @@
             <div class="tab-pane fade" id="add_dept" role="tabpanel" aria-labelledby="contact-tab">
                 <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto mt-5">
 
-                    <form action="/dept/adddept" method="POST" enctype="multipart/form-data">
+
+                    <form action="/dept/adddept" method="POST">
                         <div>
                             <h1>Add Department</h1>
                         </div>
@@ -205,7 +202,6 @@
                             </button>
                         </div>
 
-
                     </form>
 
 
@@ -214,10 +210,8 @@
             </div>
 
 
-
-
-            <!------------------------------ all employees details tabel    ------------------>
-            <div class="tab-pane fade show active" id="emps" role="tabpanel" aria-labelledby="home-tab">
+            <!-- form sample -->
+            <div class="tab-pane fade show active" id="emps" role="tabpanel" aria-labelledby="emp-tab">
 
 
                 <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
@@ -269,13 +263,14 @@
 
 
             </div>
-            <!-------------------------------  fade pannel end here ---------------------->
+
 
 
 
 
         </div>
 
+    </div>
 
 
 
@@ -290,34 +285,33 @@
 
 
 
-        <!---------------------------------   boootstrap links --------------------------------->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <!---------------------------------   boootstrap links --------------------------------->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-        <!----------------------------- javascript here --------------------------------->
+    <!----------------------------- javascript here --------------------------------->
 
-        <script>
-            function myfun() {
-                const btn = document.querySelector('#change_text')
-                btn.innerHTML = "Employee added"
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        console.log("running");
-                    }
-                };
-                xhttp.open("POST", "/dept/addemp");
-                xhttp.send();
-            }
-
-        </script>
+    <script>
+        function myfun() {
+            const btn = document.querySelector('#change_text')
+            btn.innerHTML = "Employee added"
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("running");
+                }
+            };
+            xhttp.open("POST", "/dept/addemp");
+            xhttp.send();
+        }
+    </script>
 
 </body>
 
