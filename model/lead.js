@@ -23,6 +23,7 @@ const shema = new mongoose.Schema({
         rem_desc: String
     }],
     call: [{
+        call_id: Number,
         call_date: String,
         call_time: String,
         call_desc: String,

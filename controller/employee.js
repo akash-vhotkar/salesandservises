@@ -3,6 +3,7 @@ const employee = require('../model/employee');
 const lead_form = require('../model/lead');
 const service = require('../model/service');
 module.exports = {
+
     add_lead: function (req, res) {
         const lead_data = {
             c_name: req.body.c_name,
@@ -25,6 +26,7 @@ module.exports = {
         }
 
     },
+
     get_leadform: function (req, res) {
         const c_id = strongid.generate();
         const type = req.session.type;
@@ -129,24 +131,43 @@ module.exports = {
 
 
     },
+
     addcall: function (req, res) {
         const custid = req.body.c_id;
-        lead_form.findOneAndUpdate({ c_id: custid }, {
-            $push: {
-                call: {
-                    call_date: req.body.calldate,
-                    call_time: req.body.calltime,
-                    call_desc: req.body.calldesc,
-                    call_motive: req.body.callmotive
-                }
-            }
-        }, { new: true }, (err, data) => {
-            if (err) console.log(err);
-            if (data) {
-                res.redirect('/emp/lead/callmanagement')
-            }
+        lead_form.findOne({ c_id: custid }).then(data => {
+            let lastid = 879872937;
+            data.call.forEach(element => {
+                lastid = element.call_id;
+            });
+            let finallast = parseInt(lastid) + 1;
 
+
+
+            lead_form.findOneAndUpdate({ c_id: custid }, {
+                $push: {
+                    call: {
+                        call_id: finallast,
+                        call_date: req.body.calldate,
+                        call_time: req.body.calltime,
+                        call_desc: req.body.calldesc,
+                        call_motive: req.body.callmotive
+                    }
+                }
+            }, { new: true }, (err, data) => {
+                if (err) console.log(err);
+                if (data) {
+                    res.redirect('/emp/lead/callmanagement')
+                }
+
+            })
+
+
+        }).catch(err => {
+            if (err) console.log(err);
         })
+
+
+
     },
     salepage: function (req, res) {
 
