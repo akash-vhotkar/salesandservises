@@ -36,7 +36,12 @@ router.post('/lead/addreminder', (req, res) => {
 
 
 // all ger requst of the page
-
+router.get('/production', (req, res) => {
+    res.render('production')
+})
+router.get('/purchase', (req, res) => {
+    res.render('purchase');
+})
 router.get('/', (req, res) => {
     res.render('employee');
 })
