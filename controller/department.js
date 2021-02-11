@@ -132,12 +132,13 @@ module.exports = {
 
 
     },
-    add_employees: function (id, req, res) {
+    add_employees: function (filename, id, req, res) {
         if (req.session.type) {
 
             if (req.session.type == 'admin') {
                 const emp_id = strongid.generate();
                 const emp_data = {
+                    emp_image: filename,
                     emp_name: req.body.emp_name,
                     emp_id: req.body.emp_id,
                     emp_email: req.body.emp_email,
@@ -171,7 +172,7 @@ module.exports = {
             }
         }
         else {
-            res.send('<h1>you dont have access to thise page</h1>')
+            res.send('<h1>you dont have access to thise page</h1><a href="/emp/login" class="btn btn-primary"> login</a>')
         }
 
 
@@ -194,7 +195,7 @@ module.exports = {
 
 
         else {
-            res.send('<h1>you dont have access to thise page</h1>')
+            res.send('<h1>you dont have access to thise page</h1> <a href="/emp/login" class="btn btn-primary"> login</a>')
         }
 
     }

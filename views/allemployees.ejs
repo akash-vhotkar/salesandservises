@@ -9,63 +9,47 @@
 
     <title>department employees</title>
 </head>
+<style>
+
+</style>
 
 <body>
 
-    <div class="container">
-        <h1 class="text-center">List Of Employees</h1>
-
-        <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
-            <table class="table table-striped">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th scope="col">Employee id</th>
-                        <th scope="col">Employee Name</th>
-                        <th scope="col">Employe email</th>
-                        <th scope="col">Company name</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-
-                    <% if(typeof emp !='undefined' ){ %>
-                        <% emp.forEach(i=>{ %>
-
-                            <tr>
-                                <th scope="row">
-                                    <%- i.emp_id %>
-                                </th>
-                                <td>
-                                    <%- i.emp_name %>
-                                </td>
-                                <td>
-                                    <%- i.emp_email%>
-                                </td>
-                                <td>
-                                    <%- i.cop_name%>
-                                </td>
-                            </tr>
-
-
-
-                            <%}); %>
-                                <% } %>
+    <div class="container shadow depts d-flex ">
+        <div class="row">
+            <h1 class="text-center"> all employee details </h1>
 
 
 
 
+            <% if(typeof emp !='undefined' ){ %>
+                <% emp.forEach(i=>{ %>
 
-
-
-                </tbody>
-            </table>
+                    <div class="card col-md-3 m-5">
+                        <img class="card-img-top " src="image/<%- i.emp_image %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span>Employee Name : </span>
+                                <%- i.emp_name%>
+                            </h5>
+                            <p class="card-text">
+                                <span>Employee Email : </span>
+                                <%- i.emp_email%>
+                            </p>
+                            <!-- <a href="" class="btn btn-primary   w-100"> Add Department</a> -->
+                            <p class="card-text">
+                                <span> Employee comapnay name : </span>
+                                <%- i.cop_name%>
+                            </p>
+                        </div>
+                    </div>
+                    <%}); %>
+                        <% } %>
         </div>
-
-
-
-
     </div>
+
+
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

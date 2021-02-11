@@ -8,6 +8,7 @@ const gridfsstorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 const crypto = require('crypto');
 const path = require('path')
+const departmentController = require('../controller/department');
 // file storage
 
 
@@ -63,8 +64,14 @@ router.get('/image/:filename', (req, res) => {
 // post requist of department forms
 // add employees
 router.post('/:id/addemp', (req, res) => {
-    const controler = require('../controller/department');
-    controler.add_employees(req.params.id, req, res);
+    upload(req, res, err => {
+        if (err) console.log(err);
+        else {
+            const filename = req.file.filename;
+            departmentController.add_employees(filename, req.params.id, req, res);
+        }
+    })
+
 })
 
 
@@ -75,8 +82,7 @@ router.post('/adddept', (req, res) => {
         if (err) console.log(err);
         else {
             const filename = req.file.filename;
-            const depart_con = require('../controller/department');
-            depart_con.add_department(req, res, filename);
+            departmentController.add_department(req, res, filename);
         }
     })
 
@@ -90,8 +96,7 @@ router.post('/adddept', (req, res) => {
 
 // ger reuist of the department page
 router.get('/', (req, res) => {
-    const dept_controller = require('../controller/department');
-    dept_controller.all_departments(req, res);
+    departmentController.all_departments(req, res);
 
 
 })
@@ -100,16 +105,14 @@ router.get('/', (req, res) => {
 
 // get particular department employees
 router.get('/getemp/:id', (req, res) => {
-    const constroller_dept = require('../controller/department');
-    constroller_dept.get_employees(req.params.id, req, res)
+    departmentController.get_employees(req.params.id, req, res)
 
 
 })
 // get all department employees
 
 router.get('/getallemp', (req, res) => {
-    const controller = require('../controller/department');
-    controller.get_all_employees(req, res);
+    departmentController.get_all_employees(req, res);
 })
 
 // default departments
