@@ -12,6 +12,10 @@ const empschema = new mongoose.Schema({
         type: String,
         required: true
     },
+    emp_image: {
+        type: String,
+        require: false
+    },
     cop_name: {
         type: String,
         required: false
