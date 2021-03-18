@@ -1,3 +1,4 @@
+const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 const employee_controller = require('../controller/employee');
@@ -66,6 +67,9 @@ router.get('/register', (req, res) => {
 })
 router.get('/lead/closelead/:id', (req, res) => {
     employee_controller.close_lead(req, res, req.params.id);
+})
+router.post('/lead/closelead/:id/close', (req, res) => {
+    employee_controller.finalcloselead(req, res, req.params.id);
 })
 
 
