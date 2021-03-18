@@ -6,7 +6,7 @@ const body_parser = require('body-parser');
 const ejs = require('ejs');
 const session = require('express-session');
 const sortid = require('shortid');
-const URl = require('./keys').URl;
+const URl = require('./keys').url;
 const shortid = require('shortid');
 const methodoverride = require('method-override')
 
@@ -31,7 +31,7 @@ app.use(session({
 // routers
 
 
-app.use('/dept', require('./router/depart'))
+app.use('/dept', require('./router/depart'));
 app.use('/emp', require('./router/emp'));
 
 // port listing

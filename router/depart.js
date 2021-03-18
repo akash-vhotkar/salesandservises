@@ -68,6 +68,7 @@ router.post('/:id/addemp', (req, res) => {
         if (err) console.log(err);
         else {
             const filename = req.file.filename;
+
             departmentController.add_employees(filename, req.params.id, req, res);
         }
     })

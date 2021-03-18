@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Sales Page</title>
+    <title>lead Page</title>
 </head>
 <style>
     .myformdiv {
@@ -64,9 +64,9 @@
 
                 </div>
                 <div class="form-group p-3">
-                    <label>Customer Id <span class="star">*</span></label>
-                    <input type="text" class="form-control" name="c_id" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="Enter Customer Id" value="<%- c_id%>" readonly>
+                    <label>Customer mobile no <span class="star">*</span></label>
+                    <input type="text" class="form-control" name="c_no" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter Customer mobile no">
 
                 </div>
                 <div class="form-group p-3">
@@ -75,19 +75,14 @@
                         aria-describedby="emailHelp" placeholder="Enter email" required>
 
                 </div>
-
-
-                <div class="form-group p-3 ">
-                    <label for="exampleInputPassword1">lead status </label>
-                    <br>
-
-                    <input type="radio" name="lead_status" value="true" id="leadstatus">
-                    <label for="sadsf">true</label>
-                    <br>
-                    <input type="radio" name="lead_status" value="false" id="leadstatus">
-                    <label for="sdf">false</label>
+                <div class="form-group p-3">
+                    <label>lead type<span class="star">*</span></label>
+                    <input type="text" name="lead_type" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter lead type" required>
 
                 </div>
+
+
                 <div class="form-group p-3">
                     <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
                         value="Submit">

@@ -1,15 +1,43 @@
 const strongid = require('shortid');
 const employee = require('../model/employee');
+const departmentmodel = require('../model/depart1');
 const lead_form = require('../model/lead');
 const service = require('../model/service');
 module.exports = {
+    close_lead: function (req, res, customer_id) {
+        departmentmodel.find().then((dept_data) => {
+            let alldepartments = [];
+            dept_data.forEach(item => {
+                alldepartments.push(item.dept_name);
+            });
+            lead_form.findOne({ c_id: customer_id }).then(data => {
+                res.render('closelead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: alldepartments });
+            }).catch(err => {
+                console.log(err);
+            })
+
+
+        }).catch(err => {
+            console.log(err);
+        })
+
+
+
+
+
+
+    },
 
     add_lead: function (req, res) {
+        const customer_id = strongid.generate();
+
         const lead_data = {
             c_name: req.body.c_name,
-            c_id: req.body.c_id,
+            c_no: req.body.c_no,
+            c_id: customer_id,
             c_email: req.body.c_email,
-            lead_status: req.body.lead_status
+            lead_status: false,
+            lead_type: req.body.lead_type
         }
         if (req.session.type) {
             lead_form.create(lead_data).then(() => {
@@ -28,9 +56,8 @@ module.exports = {
     },
 
     get_leadform: function (req, res) {
-        const c_id = strongid.generate();
         const type = req.session.type;
-        res.render('leadform', { c_id, type })
+        res.render('leadform', { type })
 
 
     },

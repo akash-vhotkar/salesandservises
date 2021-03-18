@@ -4,6 +4,10 @@ const shema = new mongoose.Schema({
         type: String,
         required: false
     },
+    c_no: {
+        type: String,
+        required: false
+    },
     c_id: {
         type: String,
         required: false
@@ -12,6 +16,9 @@ const shema = new mongoose.Schema({
         type: String,
         required: false
 
+    }, lead_type: {
+        type: String,
+        required: false
     },
     lead_status: {
         type: Boolean,

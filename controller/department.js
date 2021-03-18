@@ -136,38 +136,54 @@ module.exports = {
         if (req.session.type) {
 
             if (req.session.type == 'admin') {
-                const emp_id = strongid.generate();
-                const emp_data = {
-                    emp_image: filename,
-                    emp_name: req.body.emp_name,
-                    emp_id: req.body.emp_id,
-                    emp_email: req.body.emp_email,
-                    cop_name: req.body.cop_name
 
-                }
-                departments.findOneAndUpdate({ dept_id: id }, {
-                    $push: { emp_dept: emp_data }
-                }, { new: true }, (err, data) => {
-                    if (err) console.log(err);
-                    else {
-
-                        employees.create(emp_data).then(() => {
-                            const emp = data.emp_dept;
-                            const emp_id = strongid.generate();
-                            const dept_id = id;
-                            res.render('dept_employees', { emp, emp_id, dept_id })
-
-                        }).catch(err => {
-                            console.log(err);
-                        })
+                departments.findOne({ dept_id: id }).then(data => {
+                    const dept_name = data.dept_name;
 
 
+                    const emp_id = strongid.generate();
+                    const emp_data = {
+                        emp_image: filename,
+                        emp_name: req.body.emp_name,
+                        emp_id: strongid.generate(),
+                        emp_email: req.body.emp_email,
+                        dept_name: dept_name
+
+
+                    }
+                    departments.findOneAndUpdate({ dept_id: id }, {
+                        $push: { emp_dept: emp_data }
+                    }, { new: true }, (err, data) => {
+                        if (err) console.log(err);
+                        else {
+
+                            employees.create(emp_data).then(() => {
+                                const emp = data.emp_dept;
+                                const emp_id = strongid.generate();
+                                const dept_id = id;
+                                res.render('dept_employees', { emp, emp_id, dept_id })
+
+
+
+                            }).catch(err => {
+                                console.log(er);
+                            })
 
 
 
 
-                    };
+
+
+
+                        };
+                    })
+
+                }).catch((err) => {
+                    console.log(err);
                 })
+
+
+
 
             }
         }

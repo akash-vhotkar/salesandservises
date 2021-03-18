@@ -19,7 +19,6 @@
     }
 
 
-
     #callupdate {
         display: none;
     }
@@ -32,6 +31,7 @@
 <body>
     <div class="container">
         <h1 class="text-center"> call management </h1>
+        <p class="text-center">click id and close the lead</p>
 
 
 
@@ -43,8 +43,6 @@
                     <th scope="col">Customer Name</th>
                     <th scope="col">Customer email</th>
                     <th scope="col">lead status</th>
-                    <th scope="col">modify lead</th>
-                    <th scope="col">Add reminder</th>
                     <th scope="col">Call Desc</th>
 
                 </tr>
@@ -57,7 +55,10 @@
                     <% cust.forEach(i=>{ %>
                         <tr>
                             <th scope="row">
-                                <%- i.c_id %>
+                                <a href="/emp/lead/closelead/<%- i.c_id %>" style="text-decoration: none; ">
+                                    <%- i.c_id %>
+                                </a>
+
                             </th>
                             <td>
                                 <%- i.c_name %>
@@ -66,11 +67,9 @@
                                 <%- i.c_email %>
                             </td>
                             <td>
-                                <%- i.lead_status%>
+                                pending
                             </td>
-                            <td><input onclick="modify(this)" type="button" class="btn btn-primary" value="modify"></td>
-                            <td><input onclick="addreminder(this)" type="button" class="btn btn-primary"
-                                    value="Add reminder"></td>
+
                             <td>
                                 <form action="/emp/lead/callmanagement/calldesc" method="POST">
                                     <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">

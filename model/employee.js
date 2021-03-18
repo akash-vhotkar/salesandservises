@@ -16,7 +16,7 @@ const empschema = new mongoose.Schema({
         type: String,
         require: false
     },
-    cop_name: {
+    dept_name: {
         type: String,
         required: false
     },

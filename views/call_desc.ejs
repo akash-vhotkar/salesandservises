@@ -21,9 +21,15 @@
 </style>
 
 <body>
+    <div class="container d-flex justify-content-md-center">
+        <div>
+            <h1 class="p-2">customer name <%-c_name%>
+            </h1>
+
+        </div>
+    </div>
     <div class="container">
-        <h1>hi <%-c_name%>
-        </h1>
+
         <table class="table table-striped" id="calldesc">
             <thead class="bg-dark text-white">
                 <tr>
@@ -76,6 +82,11 @@
 
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            <form action="" method="get">
+                <button type="submit" class="btn btn-primary">close lead</button>
+            </form>
+        </div>
 
         <form action="/emp/lead/callmanagement/calldesc/addcall" class="w-75 m-auto" id="addcall" method="POST">
             <div>
