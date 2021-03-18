@@ -43,7 +43,11 @@
                     <th scope="col">Customer Name</th>
                     <th scope="col">Customer email</th>
                     <th scope="col">lead status</th>
+                    <th scope="col">forworded to</th>
+                    <th scope="col">employee</th>
+
                     <th scope="col">Call Desc</th>
+
 
                 </tr>
             </thead>
@@ -67,7 +71,13 @@
                                 <%- i.c_email %>
                             </td>
                             <td>
-                                pending
+                                <%- i.lead_type%>
+                            </td>
+                            <td>
+                                <%- i.forworded_to%>
+                            </td>
+                            <td>
+                                <%-i.employee_working%>
                             </td>
 
                             <td>

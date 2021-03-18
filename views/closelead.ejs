@@ -31,7 +31,7 @@
     <div class="container">
 
 
-        <form action="/emp/lead/closelead/:<%-mycustomer_id%>/close" class="w-75 m-auto" id="addcall" method="POST">
+        <form action="/emp/lead/closelead/<%-mycustomer_id%>/close" class="w-75 m-auto" id="addcall" method="POST">
             <div>
                 <h1 class="text-center">Close lead and forward to the department</h1>
             </div>
@@ -63,8 +63,13 @@
 
             <div class="form-group p-3">
                 <label>select department <span class="star">*</span></label>
+<<<<<<< HEAD
                 <select class="form-control" name="department" id="department" required>
                     <option value="" disabled selected>select departments</option>
+=======
+                <select name="forworded_department" class="form-control" name="department" id="">
+                    <option value="">select departments</option>
+>>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
                     <% if(typeof alldepts !='undefined' ){ %>
                         <% alldepts.forEach(i =>{ %>
                             <option value="<%- i._id %>">
@@ -76,11 +81,17 @@
                 </select>
             </div>
             <div class="form-group p-3">
+<<<<<<< HEAD
                 <label for="">select emplyee</label>
                 <select name="employee" class="form-control" id="employee">
+=======
+                <label for="">select employee</label>
+                <input type="text" name="employee" id="emplyee" class="form-control">
+                <!-- <select class="form-control" id="">
+>>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
                     <option value="">select employee </option>
                     <option value="emploess">employess</option>
-                </select>
+                </select> -->
             </div>
 
 

@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 const shema = new mongoose.Schema({
+    emp_id: {
+        type: String,
+        required: true
+
+    },
     c_name: {
         type: String,
         required: false
@@ -23,6 +28,12 @@ const shema = new mongoose.Schema({
     lead_status: {
         type: Boolean,
         required: true
+    }, forworded_to: {
+        type: String,
+        required: false
+    }, employee_working: {
+        type: String,
+        required: false
     },
     reminder: [{
         rem_date: String,

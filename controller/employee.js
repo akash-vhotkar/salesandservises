@@ -15,6 +15,25 @@ module.exports = {
         }).catch(err => {
             console.log(err);
         })
+<<<<<<< HEAD
+=======
+
+
+    },
+    finalcloselead: function (req, res, id) {
+        const forworded_department = req.body.forworded_department;
+        const employee_working = req.body.employee;
+        lead_form.findOneAndUpdate({ c_id: id }, {
+            forworded_to: forworded_department,
+            employee_working: employee_working,
+            lead_status: true,
+            lead_type: "successes"
+        }, { new: true }, (err, cust) => {
+            if (err) console.log(err);
+            res.redirect('/emp/lead/callmanagement')
+        })
+
+>>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
     },
     get_dept_id:async function(req,res,deptid){
         try {
@@ -29,12 +48,16 @@ module.exports = {
         const customer_id = strongid.generate();
 
         const lead_data = {
+            emp_id: req.session.employee_id,
             c_name: req.body.c_name,
             c_no: req.body.c_no,
             c_id: customer_id,
             c_email: req.body.c_email,
             lead_status: false,
-            lead_type: req.body.lead_type
+            lead_type: req.body.lead_type,
+            forworded_to: "nan",
+            employee_working: "nan"
+
         }
         if (req.session.type) {
             lead_form.create(lead_data).then(() => {
@@ -57,7 +80,8 @@ module.exports = {
         res.render('leadform', { type })
     },
     callmanagement: function (req, res) {
-        lead_form.find({ lead_status: false }).then((cust) => {
+        const emp_id = req.session.employee_id;
+        lead_form.find({ emp_id: emp_id }).then((cust) => {
 
             res.render('callmanage', { cust });
 
@@ -236,6 +260,7 @@ module.exports = {
         req.session.username = username;
         employee.findOne({ emp_name: username }).then(emp => {
             if (emp && emp.password == password) {
+                req.session.employee_id = emp.emp_id
                 if (emp.type == "employee") {
                     req.session.type = "employee";
                     res.redirect('/emp/');
