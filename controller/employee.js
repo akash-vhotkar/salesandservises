@@ -6,20 +6,17 @@ const service = require('../model/service');
 module.exports = {
     close_lead: function (req, res, customer_id) {
         departmentmodel.find().then((dept_data) => {
-            let alldepartments = [];
-            dept_data.forEach(item => {
-                alldepartments.push(item.dept_name);
-            });
             lead_form.findOne({ c_id: customer_id }).then(data => {
-                res.render('closelead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: alldepartments });
+                res.render('closelead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
             }).catch(err => {
                 console.log(err);
             })
 
-
         }).catch(err => {
             console.log(err);
         })
+<<<<<<< HEAD
+=======
 
 
     },
@@ -36,8 +33,17 @@ module.exports = {
             res.redirect('/emp/lead/callmanagement')
         })
 
+>>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
     },
-
+    get_dept_id:async function(req,res,deptid){
+        try {
+            const data =  await departmentmodel.findById(deptid);
+            console.log(data);
+            res.status(200).json(data);
+        } catch (error) {
+            console.log(error);
+        }
+    },
     add_lead: function (req, res) {
         const customer_id = strongid.generate();
 
@@ -72,8 +78,6 @@ module.exports = {
     get_leadform: function (req, res) {
         const type = req.session.type;
         res.render('leadform', { type })
-
-
     },
     callmanagement: function (req, res) {
         const emp_id = req.session.employee_id;
