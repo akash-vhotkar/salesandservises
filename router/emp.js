@@ -25,8 +25,6 @@ router.post('/lead/servicepage', (req, res) => {
 router.post('/lead/callmanagement/calldesc/callupdate', (req, res) => {
     employee_controller.callupdate(req, res);
 })
-
-
 router.post('/lead/updatecall', (req, res) => {
     employee_controller.updatelead(req, res);
 })
@@ -68,13 +66,13 @@ router.get('/register', (req, res) => {
 router.get('/lead/closelead/:id', (req, res) => {
     employee_controller.close_lead(req, res, req.params.id);
 })
-<<<<<<< HEAD
+
 router.post('/lead/getdeptbyid', (req, res) => {
     employee_controller.get_dept_id(req, res, req.body.id);
-=======
+})
 router.post('/lead/closelead/:id/close', (req, res) => {
     employee_controller.finalcloselead(req, res, req.params.id);
->>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
+
 })
 
 

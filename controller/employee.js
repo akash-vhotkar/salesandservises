@@ -15,29 +15,31 @@ module.exports = {
         }).catch(err => {
             console.log(err);
         })
-<<<<<<< HEAD
-=======
-
-
     },
     finalcloselead: function (req, res, id) {
-        const forworded_department = req.body.forworded_department;
+        console.log("my requst body ", req.body);
+        const deptid = req.body.forworded_department;
         const employee_working = req.body.employee;
-        lead_form.findOneAndUpdate({ c_id: id }, {
-            forworded_to: forworded_department,
-            employee_working: employee_working,
-            lead_status: true,
-            lead_type: "successes"
-        }, { new: true }, (err, cust) => {
-            if (err) console.log(err);
-            res.redirect('/emp/lead/callmanagement')
+
+        departmentmodel.findById(deptid).then(data => {
+            lead_form.findOneAndUpdate({ c_id: id }, {
+                forworded_to: data.dept_name,
+                employee_working: employee_working,
+                lead_status: true,
+                lead_type: "successes"
+            }, { new: true }, (err, cust) => {
+                if (err) console.log(err);
+                res.redirect('/emp/lead/callmanagement')
+            })
+
+        }).catch((err) => {
+            console.log(err);
         })
 
->>>>>>> 657a168a6b0f8ebb48d9b8babaf1c47c2facb2f1
     },
-    get_dept_id:async function(req,res,deptid){
+    get_dept_id: async function (req, res, deptid) {
         try {
-            const data =  await departmentmodel.findById(deptid);
+            const data = await departmentmodel.findById(deptid);
             console.log(data);
             res.status(200).json(data);
         } catch (error) {

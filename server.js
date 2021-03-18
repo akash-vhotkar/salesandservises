@@ -20,7 +20,7 @@ app.set('view engine', "ejs");
 app.use(methodoverride('_method'))
 app.use(express.static('./public'))
 
-mongoose.connect(URl, { useNewUrlParser: true, useUnifiedTopology: true,useFindAndModify:false }).then(() => console.log("database connected")).catch(err => { console.log(err); })
+mongoose.connect(URl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() => console.log("database connected")).catch(err => { console.log(err); })
 app.use(session({
     secret: "secreat",
     resave: true,
