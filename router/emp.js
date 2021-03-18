@@ -67,6 +67,9 @@ router.get('/register', (req, res) => {
 router.get('/lead/closelead/:id', (req, res) => {
     employee_controller.close_lead(req, res, req.params.id);
 })
+router.post('/lead/getdeptbyid', (req, res) => {
+    employee_controller.get_dept_id(req, res, req.body.id);
+})
 
 
 router.get('/lead/service/details', (req, res) => {
