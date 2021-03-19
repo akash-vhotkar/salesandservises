@@ -24,10 +24,14 @@ const shema = new mongoose.Schema({
     }, lead_type: {
         type: String,
         required: false
+    }, lead_desc: {
+        type: String,
+        required: true
     },
     lead_status: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false
     }, forworded_to: {
         type: String,
         required: false

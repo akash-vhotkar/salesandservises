@@ -10,7 +10,7 @@
 </head>
 <style>
     .myformdiv {
-        height: 80vh;
+        height: auto;
         display: flex;
         margin-top: 10vh;
         align-items: center;
@@ -42,9 +42,11 @@
             <% }%>
                 <a href="/emp/production" class="btn btn-primary">production</a>
                 <a href="/emp/purchase" class="btn btn-primary">purchase</a>
+                <a href="/emp/lead/closelead" class="btn btn-primary">completed lead </a>
+                <a href="/emp/lead/myleads" class="btn btn-primary"> myleads</a>
 
                 <form action="/emp/lead/callmanagement" class="form-inline">
-                    <button class="btn btn-primary" type="submit">call managment </button>
+                    <button class="btn btn-primary" type="submit">lead managment </button>
 
                 </form>
     </nav>
@@ -77,10 +79,21 @@
                 </div>
                 <div class="form-group p-3">
                     <label>lead type<span class="star">*</span></label>
-                    <input type="text" name="lead_type" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="Enter lead type" required>
+                    <!-- <input type="text" name="lead_type" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter lead type" required> -->
+                    <select name="lead_type" id="" class="form-control">
+                        <option value="" selected disabled>select lead type</option>
+                        <option value="sales">sales lead</option>
+                        <option value="servises">servises lead</option>
+                    </select>
 
                 </div>
+                <div class="form-group p-3">
+                    <label>lead description<span class="star">*</span></label>
+                    <textarea name="lead_desc" id="" rows="3" class="form-control"
+                        placeholder="Enter lead description"></textarea>
+                </div>
+
 
 
                 <div class="form-group p-3">

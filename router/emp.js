@@ -64,14 +64,14 @@ router.get('/register', (req, res) => {
     employee_controller.getregister(req, res);
 })
 router.get('/lead/closelead/:id', (req, res) => {
-    employee_controller.close_lead(req, res, req.params.id);
+    employee_controller.forward_lead(req, res, req.params.id);
 })
 
 router.post('/lead/getdeptbyid', (req, res) => {
     employee_controller.get_dept_id(req, res, req.body.id);
 })
 router.post('/lead/closelead/:id/close', (req, res) => {
-    employee_controller.finalcloselead(req, res, req.params.id);
+    employee_controller.finalforwordlead(req, res, req.params.id);
 
 })
 

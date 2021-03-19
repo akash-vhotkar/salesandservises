@@ -43,10 +43,14 @@
                     <th scope="col">Customer Name</th>
                     <th scope="col">Customer email</th>
                     <th scope="col">lead status</th>
+                    <th scope="col">lead desc</th>
+
                     <th scope="col">forworded to</th>
                     <th scope="col">employee</th>
+                    <th scope="col">close lead</th>
 
-                    <th scope="col">Call Desc</th>
+
+                    <th scope="col">lead Desc</th>
 
 
                 </tr>
@@ -74,16 +78,26 @@
                                 <%- i.lead_type%>
                             </td>
                             <td>
+                                <%- i.lead_desc%>
+                            </td>
+
+                            <td>
                                 <%- i.forworded_to%>
                             </td>
                             <td>
                                 <%-i.employee_working%>
                             </td>
+                            <td>
+                                <form action="/emp/lead/callmanagement/close" method="POST">
+                                    <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">
+                                    <button class="btn btn-primary" type="submit">close lead</button>
+                                </form>
+                            </td>
 
                             <td>
                                 <form action="/emp/lead/callmanagement/calldesc" method="POST">
                                     <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">
-                                    <button class="btn btn-primary" type="submit">call desc</button>
+                                    <button class="btn btn-primary" type="submit">lead desc</button>
                                 </form>
                             </td>
 

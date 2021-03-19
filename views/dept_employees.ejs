@@ -86,13 +86,31 @@
                         aria-describedby="emailHelp" required>
 
                 </div>
-
-
-
-
-
-
                 <div class="form-group p-3">
+                    <label>Employee password<span class="star">*</span></label>
+                    <input type="text" name="password" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" value="<%-password%>" readonly required>
+
+                </div>
+                <div class="form-group p-3">
+                    <label>Employee designation<span class="star">*</span></label>
+                    <select name="type" id="" class="form-control">
+                        <option value="" selected disabled>select employee designation</option>
+                        <option value="reception">Reception</option>
+                        <option value="employee">employee</option>
+                        <option value="hod">Head of department</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="form-group p-3 mt-2">
                     <button type="submit" class="form-control p-2 bg-primary text-white">
                         Add Employee
                     </button>

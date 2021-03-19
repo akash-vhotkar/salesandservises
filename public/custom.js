@@ -15,7 +15,7 @@ jQuery('#department').change(function () {
                 let finaldata = '';
 
                 emp_dept.forEach(element => {
-                    finaldata += `<option value='${element.emp_name}'>${element.emp_name}</option>`;
+                    finaldata += `<option value='${element.emp_id}'>${element.emp_name}</option>`;
                 });
 
                 jQuery('#employee').html('<option value="-1" selected disabled>Select Employee</option>')

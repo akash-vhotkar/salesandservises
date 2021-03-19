@@ -4,7 +4,7 @@ const departmentmodel = require('../model/depart1');
 const lead_form = require('../model/lead');
 const service = require('../model/service');
 module.exports = {
-    close_lead: function (req, res, customer_id) {
+    forward_lead: function (req, res, customer_id) {
         departmentmodel.find().then((dept_data) => {
             lead_form.findOne({ c_id: customer_id }).then(data => {
                 res.render('closelead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
@@ -16,25 +16,50 @@ module.exports = {
             console.log(err);
         })
     },
-    finalcloselead: function (req, res, id) {
+    finalforwordlead: function (req, res, id) {
         console.log("my requst body ", req.body);
+        let copy = {};
         const deptid = req.body.forworded_department;
-        const employee_working = req.body.employee;
+        const employee_working_id = req.body.employee;
 
         departmentmodel.findById(deptid).then(data => {
-            lead_form.findOneAndUpdate({ c_id: id }, {
-                forworded_to: data.dept_name,
-                employee_working: employee_working,
-                lead_status: true,
-                lead_type: "successes"
-            }, { new: true }, (err, cust) => {
+            employee.findOne({ emp_id: employee_working_id }).then(employeedata => {
+                lead_form.findOneAndUpdate({ c_id: id }, {
+                    forworded_to: data.dept_name,
+                    employee_working: employeedata.emp_name,
+                    lead_status: false,
+                    lead_type: "assigned"
+                }, { new: true }, (err, cust) => {
+                    if (err) console.log(err);
+                    if (cust) {
+                        let customerdata = cust;
+                        console.log(customerdata);
+                        customerdata.emp_id = employee_working_id;
+                        copy = customerdata;
+
+                    }
+
+
+                })
+
+
+            }).catch(err => {
                 if (err) console.log(err);
+            })
+            console.log("copy of  the data ", copy);
+            lead_form.create(copy).then((data) => {
+                console.log("mydata ", data);
                 res.redirect('/emp/lead/callmanagement')
+            }).catch(err => {
+                console.log(err);
             })
 
-        }).catch((err) => {
-            console.log(err);
+
+        }).catch(err => {
+            if (err) console.log(err);
         })
+
+
 
     },
     get_dept_id: async function (req, res, deptid) {
@@ -56,6 +81,7 @@ module.exports = {
             c_id: customer_id,
             c_email: req.body.c_email,
             lead_status: false,
+            lead_desc: req.body.lead_desc,
             lead_type: req.body.lead_type,
             forworded_to: "nan",
             employee_working: "nan"
@@ -174,10 +200,6 @@ module.exports = {
             }
 
         })
-
-
-
-
     },
 
     addcall: function (req, res) {
@@ -265,11 +287,15 @@ module.exports = {
                 req.session.employee_id = emp.emp_id
                 if (emp.type == "employee") {
                     req.session.type = "employee";
-                    res.redirect('/emp/');
+                    res.redirect('/emp/lead/callmanagement');
                 }
                 if (emp.type == 'admin') {
                     req.session.type = "admin"
                     res.redirect('/dept/')
+                }
+                if (emp.type == "reception") {
+                    req.session.type = "reception";
+                    res.redirect('/emp/')
                 }
             }
             else {

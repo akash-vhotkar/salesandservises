@@ -5,6 +5,7 @@ const multer_gridfs = require('multer-gridfs');
 const employees = require('../model/employee');
 const multer_st = require('multer-gridfs-storage');
 const crypt = require('crypto');
+const password_generator = require('secure-random-password');
 module.exports = {
     add_department: function (req, res, filename) {
 
@@ -110,13 +111,15 @@ module.exports = {
 
                     if (depts.emp_dept != null) {
                         let emp = depts.emp_dept;
+                        const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
 
-                        res.render('dept_employees', { emp, emp_id, dept_id })
+
+                        res.render('dept_employees', { emp, emp_id, dept_id, password })
                     }
                     else {
                         let emp = [];
 
-                        res.render('dept_employees', { emp, emp_id, dept_id })
+                        res.render('dept_employees', { emp, emp_id, dept_id, password })
                     }
 
 
@@ -140,10 +143,11 @@ module.exports = {
                 departments.findOne({ dept_id: id }).then(data => {
                     const dept_name = data.dept_name;
 
-
                     const emp_id = strongid.generate();
                     const emp_data = {
                         emp_image: filename,
+                        password: req.body.password,
+                        type: req.body.type,
                         emp_name: req.body.emp_name,
                         emp_id: strongid.generate(),
                         emp_email: req.body.emp_email,
@@ -158,10 +162,12 @@ module.exports = {
                         else {
 
                             employees.create(emp_data).then(() => {
+                                const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
+
                                 const emp = data.emp_dept;
                                 const emp_id = strongid.generate();
                                 const dept_id = id;
-                                res.render('dept_employees', { emp, emp_id, dept_id })
+                                res.render('dept_employees', { emp, emp_id, dept_id, password })
 
 
 

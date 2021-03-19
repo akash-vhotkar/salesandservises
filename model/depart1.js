@@ -14,6 +14,7 @@ const schema = new mongoose.Schema({
     emp_dept: [{
         emp_name: String,
         emp_id: String,
+        password: String,
         emp_email: String,
         cop_name: String
     }],
