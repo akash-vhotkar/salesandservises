@@ -28,14 +28,30 @@ const shema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lead_status: {
-        type: Boolean,
-        required: true,
-        default: false
-    }, forworded_to: {
+    lead_status_string: {
         type: String,
         required: false
-    }, employee_working: {
+    },
+    lead_closed_by_emp: {
+        type: String,
+        required: false
+    },
+
+    lead_status: {
+        type: Boolean,
+        required: true
+    }, forworded_to_dept: {
+        type: String,
+        required: false
+    }, forworded_to_emp_name: {
+        type: String,
+        required: false
+    },
+    close_desc: {
+        type: String,
+        required: false
+    },
+    forworded_to_emp_id: {
         type: String,
         required: false
     },

@@ -3,6 +3,16 @@ const express = require('express');
 const router = express.Router();
 const employee_controller = require('../controller/employee');
 // all post requst empiyees
+router.get('/logout', (req, res) => {
+    employee_controller.logout(req, res);
+
+})
+router.post('/lead/callmanagement/close', (req, res) => {
+    employee_controller.closelead(req, res);
+})
+router.get('/lead/callmanagement/closeleads', (req, res) => {
+    employee_controller.getcloseleads(req, res);
+})
 
 // leadform generate
 router.post('/lead', (req, res) => {
@@ -63,14 +73,14 @@ router.get('/lead/service', (req, res) => {
 router.get('/register', (req, res) => {
     employee_controller.getregister(req, res);
 })
-router.get('/lead/closelead/:id', (req, res) => {
+router.get('/lead/assign/:id', (req, res) => {
     employee_controller.forward_lead(req, res, req.params.id);
 })
 
 router.post('/lead/getdeptbyid', (req, res) => {
     employee_controller.get_dept_id(req, res, req.body.id);
 })
-router.post('/lead/closelead/:id/close', (req, res) => {
+router.post('/lead/assign/:id/assign', (req, res) => {
     employee_controller.finalforwordlead(req, res, req.params.id);
 
 })
