@@ -14,6 +14,16 @@ router.get('/lead/callmanagement/closeleads', (req, res) => {
     employee_controller.getcloseleads(req, res);
 })
 
+router.get('/changepassword/:id', (req, res) => {
+
+    employee_controller.getchangepassword(req, res, req.params.id);
+})
+
+router.post('/changepassword/:id', (req, res) => {
+
+    employee_controller.changepassword(req, res, req.params.id);
+})
+
 // leadform generate
 router.post('/lead', (req, res) => {
     employee_controller.add_lead(req, res)

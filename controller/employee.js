@@ -36,6 +36,26 @@ module.exports = {
             }
         })
     },
+    getchangepassword: function (req, res, id) {
+        employee.findOne({ emp_id: id }).then((data) => {
+            const emp_id = data.emp_id;
+            res.render('changepassword', { emp_id })
+
+        }).catch(err => {
+            if (err) console.log(err);
+        })
+
+    },
+    changepassword: function (req, res, id) {
+        employee.findOneAndUpdate({ emp_id: id }, {
+            password: req.body.password
+        }, { new: true }, (err, data) => {
+            if (err) console.log(err);
+            if (data) {
+                res.redirect('/emp/login')
+            }
+        })
+    },
     forward_lead: function (req, res, customer_id) {
         departmentmodel.find().then((dept_data) => {
             lead_form.findOne({ c_id: customer_id }).then(data => {

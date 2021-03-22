@@ -4,8 +4,11 @@ const multer = require('multer');
 const multer_gridfs = require('multer-gridfs');
 const employees = require('../model/employee');
 const multer_st = require('multer-gridfs-storage');
+const sendgrid = require('@sendgrid/mail');
 const crypt = require('crypto');
 const password_generator = require('secure-random-password');
+const gridapi = require('../keys').sendgridapi;
+
 module.exports = {
     add_department: function (req, res, filename) {
 
@@ -143,18 +146,22 @@ module.exports = {
                 departments.findOne({ dept_id: id }).then(data => {
                     const dept_name = data.dept_name;
 
+                    sendgrid.setApiKey(gridapi);
+                    const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
+
+
                     const emp_id = strongid.generate();
                     const emp_data = {
                         emp_image: filename,
-                        password: req.body.password,
+                        password: password,
                         type: req.body.type,
                         emp_name: req.body.emp_name,
                         emp_id: strongid.generate(),
                         emp_email: req.body.emp_email,
                         dept_name: dept_name
 
-
                     }
+
                     departments.findOneAndUpdate({ dept_id: id }, {
                         $push: { emp_dept: emp_data }
                     }, { new: true }, (err, data) => {
@@ -162,12 +169,33 @@ module.exports = {
                         else {
 
                             employees.create(emp_data).then(() => {
-                                const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
 
                                 const emp = data.emp_dept;
                                 const emp_id = strongid.generate();
                                 const dept_id = id;
-                                res.render('dept_employees', { emp, emp_id, dept_id, password })
+
+
+                                const message = {
+                                    to: emp_data.emp_email,
+                                    from: {
+                                        name: "hardcipher",
+                                        email: "akashvhotkar4@gmail.com"
+                                    },
+                                    subject: "change password",
+                                    html: `<h1>hello ${req.body.emp_name}</h1> <p>welcome in ${dept_name}</p>  <p> username : ${emp_data.emp_name} department</p>  <p>password : ${emp_data.password} </p>  <a href= "http://localhost:1234/emp/changepassword/${emp_data.emp_id}">change password</a>`
+
+                                }
+                                sendgrid.send(message).then(responsed => {
+                                    console.log(responsed);
+                                    res.render('dept_employees', { emp, emp_id, dept_id })
+                                }).catch(err => {
+                                    if (err) console.log(err);
+                                })
+
+
+
+
+
 
 
 
