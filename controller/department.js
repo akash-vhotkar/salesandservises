@@ -148,8 +148,6 @@ module.exports = {
 
                     sendgrid.setApiKey(gridapi);
                     const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
-
-
                     const emp_id = strongid.generate();
                     const emp_data = {
                         emp_image: filename,
@@ -161,7 +159,6 @@ module.exports = {
                         dept_name: dept_name
 
                     }
-
                     departments.findOneAndUpdate({ dept_id: id }, {
                         $push: { emp_dept: emp_data }
                     }, { new: true }, (err, data) => {
@@ -173,8 +170,6 @@ module.exports = {
                                 const emp = data.emp_dept;
                                 const emp_id = strongid.generate();
                                 const dept_id = id;
-
-
                                 const message = {
                                     to: emp_data.emp_email,
                                     from: {
@@ -182,7 +177,7 @@ module.exports = {
                                         email: "akashvhotkar4@gmail.com"
                                     },
                                     subject: "change password",
-                                    html: `<h1>hello ${req.body.emp_name}</h1> <p>welcome in ${dept_name}</p>  <p> username : ${emp_data.emp_name} department</p>  <p>password : ${emp_data.password} </p>  <a href= "http://localhost:1234/emp/changepassword/${emp_data.emp_id}">change password</a>`
+                                    html: `<h1>hello ${req.body.emp_name}</h1> <p>welcome in ${dept_name} department</p>  <p> username : ${emp_data.emp_name} </p>  <p>password : ${emp_data.password} </p>  <a href= "http://localhost:1234/emp/login">login and change password</a>`
 
                                 }
                                 sendgrid.send(message).then(responsed => {

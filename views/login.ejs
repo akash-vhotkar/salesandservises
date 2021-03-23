@@ -37,26 +37,27 @@
         <div class="col-md-5 myformdiv shadow">
 
             <form action="/emp/login" class="w-75" method="POST">
-                <div>
-                    <h1>Log in form</h1>
-                </div>
-                <div class="form-group p-3">
+                <%- include('partials/alertmessages')%>
+                    <div>
+                        <h1>Log in form</h1>
+                    </div>
+                    <div class="form-group p-3">
 
-                    <label>Eneter Your Username <span class="star">*</span></label>
-                    <input type="text" name="username" class="form-control" aria-describedby="emailHelp"
-                        placeholder="Enter Username" required>
+                        <label>Eneter Your Username <span class="star">*</span></label>
+                        <input type="text" name="username" class="form-control" aria-describedby="emailHelp"
+                            placeholder="Enter Username" required>
 
-                </div>
-                <div class="form-group p-3">
-                    <label>Eneter Your Password <span class="star">*</span></label>
-                    <input type="password" class="form-control" name="password" id="exampleInputEmail1"
-                        aria-describedby="emailHelp" placeholder="Enter Password">
+                    </div>
+                    <div class="form-group p-3">
+                        <label>Eneter Your Password <span class="star">*</span></label>
+                        <input type="password" class="form-control" name="password" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="Enter Password">
 
-                </div>
-                <div class="form-group p-3">
-                    <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
-                        value="Submit">
-                </div>
+                    </div>
+                    <div class="form-group p-3">
+                        <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
+                            value="Submit">
+                    </div>
 
             </form>
         </div>

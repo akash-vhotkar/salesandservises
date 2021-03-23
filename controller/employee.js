@@ -9,99 +9,163 @@ module.exports = {
         res.redirect('/emp/login')
     },
     getcloseleads: function (req, res) {
-        const emp_id = req.session.employee_id;
-        console.log(emp_id);
-        lead_form.find({ forworded_to_emp_id: emp_id, lead_status: true }).then(cust => {
-            console.log(cust);
-            res.render("completedleads", { cust })
+        if (req.session.employee_id) {
+            const emp_id = req.session.employee_id;
+            console.log(emp_id);
+            lead_form.find({ forworded_to_emp_id: emp_id, lead_status: true }).then(cust => {
+                console.log(cust);
+                res.render("completedleads", { cust })
 
-        }).catch(err => {
-            console.log(err);
-        })
-    },
-    closelead: function (req, res) {
-        const customerid = req.body.c_id;
-        const closedby = req.session.employee_id;
-        console.log("lead close by emp");
-        lead_form.findOneAndUpdate({ c_id: customerid }, {
-            lead_status: true,
-            lead_status_string: "closed",
-            lead_closed_by_emp: closedby,
-            close_desc: req.body.call_desc
-        }, { new: true }, (err, data) => {
-            if (err) console.log(err);
-            else {
-                res.redirect('/emp/lead/callmanagement')
-
-            }
-        })
-    },
-    getchangepassword: function (req, res, id) {
-        employee.findOne({ emp_id: id }).then((data) => {
-            const emp_id = data.emp_id;
-            res.render('changepassword', { emp_id })
-
-        }).catch(err => {
-            if (err) console.log(err);
-        })
-
-    },
-    changepassword: function (req, res, id) {
-        employee.findOneAndUpdate({ emp_id: id }, {
-            password: req.body.password
-        }, { new: true }, (err, data) => {
-            if (err) console.log(err);
-            if (data) {
-                res.redirect('/emp/login')
-            }
-        })
-    },
-    forward_lead: function (req, res, customer_id) {
-        departmentmodel.find().then((dept_data) => {
-            lead_form.findOne({ c_id: customer_id }).then(data => {
-                res.render('assignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
             }).catch(err => {
                 console.log(err);
             })
+        }
+        else {
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login " });
+            res.render('login', { alertmessages })
 
-        }).catch(err => {
-            console.log(err);
-        })
+
+        }
+    },
+    closelead: function (req, res) {
+        if (req.session.employee_id) {
+            const customerid = req.body.c_id;
+            const closedby = req.session.employee_id;
+            console.log("lead close by emp");
+            lead_form.findOneAndUpdate({ c_id: customerid }, {
+                lead_status: true,
+                lead_status_string: "closed",
+                lead_closed_by_emp: closedby,
+                close_desc: req.body.call_desc
+            }, { new: true }, (err, data) => {
+                if (err) console.log(err);
+                else {
+                    res.redirect('/emp/lead/callmanagement')
+
+                }
+            })
+        }
+        else {
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+
+
+        }
+    },
+    getchangepassword: function (req, res, id) {
+        if (req.session.employee_id) {
+            employee.findOne({ emp_id: id }).then((data) => {
+                const emp_id = data.emp_id;
+                res.render('changepassword', { emp_id })
+
+            }).catch(err => {
+                if (err) console.log(err);
+            })
+        }
+        else {
+
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+        }
+
+    },
+    changepassword: function (req, res, id) {
+        if (req.session.employee_id) {
+            const emp_id = id;
+            if (req.body.password != req.body.confirm_password) {
+                const alertmessages = [];
+                alertmessages.push({ msg: "new password and confirm password does not match" });
+
+                res.render('changepassword', { emp_id, alertmessages })
+            }
+            else {
+
+                employee.findOneAndUpdate({ emp_id: id }, {
+                    password: req.body.password
+                }, { new: true }, (err, data) => {
+                    if (err) console.log(err);
+                    if (data) {
+                        const alertmessages = [];
+                        alertmessages.push({ msg: "password changed successfully" });
+
+                        res.render('changepassword', { emp_id, alertmessages })
+                    }
+                })
+            }
+        }
+
+        else {
+
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+        }
+    },
+    forward_lead: function (req, res, customer_id) {
+        if (req.session.employee_id) {
+            departmentmodel.find().then((dept_data) => {
+                lead_form.findOne({ c_id: customer_id }).then(data => {
+                    res.render('assignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
+                }).catch(err => {
+                    console.log(err);
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+        else {
+
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+        }
     },
     finalforwordlead: function (req, res, id) {
-        let copy = {};
-        const deptid = req.body.forworded_department;
-        const employee_working_id = req.body.employee;
+        if (req.session.employee_id) {
+            let copy = {};
+            const deptid = req.body.forworded_department;
+            const employee_working_id = req.body.employee;
 
-        departmentmodel.findById(deptid).then(data => {
-            employee.findOne({ emp_id: employee_working_id }).then(employeedata => {
-                lead_form.findOneAndUpdate({ c_id: id }, {
-                    forworded_to_dept: data.dept_name,
-                    forworded_to_emp_name: employeedata.emp_name,
-                    lead_status: false,
-                    lead_status_string: "assigned",
-                    forworded_to_emp_id: employee_working_id
-                }, { new: true }, (err, cust) => {
+            departmentmodel.findById(deptid).then(data => {
+                employee.findOne({ emp_id: employee_working_id }).then(employeedata => {
+                    lead_form.findOneAndUpdate({ c_id: id }, {
+                        forworded_to_dept: data.dept_name,
+                        forworded_to_emp_name: employeedata.emp_name,
+                        lead_status: false,
+                        lead_status_string: "assigned",
+                        forworded_to_emp_id: employee_working_id
+                    }, { new: true }, (err, cust) => {
+                        if (err) console.log(err);
+                        if (cust) res.redirect('/emp/lead/callmanagement')
+
+
+                    })
+
+
+                }).catch(err => {
                     if (err) console.log(err);
-                    if (cust) res.redirect('/emp/lead/callmanagement')
-
-
                 })
 
 
             }).catch(err => {
                 if (err) console.log(err);
             })
+        }
+        else {
 
-
-        }).catch(err => {
-            if (err) console.log(err);
-        })
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+        }
 
 
 
     },
     get_dept_id: async function (req, res, deptid) {
+
         try {
             const data = await departmentmodel.findById(deptid);
             console.log(data);
@@ -144,29 +208,46 @@ module.exports = {
     },
 
     get_leadform: function (req, res) {
-        const type = req.session.type;
-        res.render('leadform', { type })
-    },
-    callmanagement: function (req, res) {
-        const emp_id = req.session.employee_id;
-        if (req.session.type === "employee") {
-            lead_form.find({ forworded_to_emp_id: emp_id, lead_status: false }).then((cust) => {
-
-                res.render('employeecallmanagement', { cust });
-
-            }).catch((err) => {
-                console.log(err);
-            })
-
+        if (req.session.employee_id) {
+            const type = req.session.type;
+            res.render('leadform', { type })
         }
         else {
-            lead_form.find({ emp_id: emp_id, lead_status: false }).then((cust) => {
 
-                res.render('callmanage', { cust });
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
+        }
+    },
+    callmanagement: function (req, res) {
+        if (req.session.employee_id) {
+            const emp_id = req.session.employee_id;
+            if (req.session.type === "employee") {
+                lead_form.find({ forworded_to_emp_id: emp_id, lead_status: false }).then((cust) => {
 
-            }).catch((err) => {
-                console.log(err);
-            })
+
+                    res.render('employeecallmanagement', { cust, emp_id });
+
+                }).catch((err) => {
+                    console.log(err);
+                })
+
+            }
+            else {
+                lead_form.find({ emp_id: emp_id, lead_status: false }).then((cust) => {
+
+                    res.render('callmanage', { cust });
+
+                }).catch((err) => {
+                    console.log(err);
+                })
+            }
+        }
+        else {
+
+            const alertmessages = [];
+            alertmessages.push({ msg: "please login" });
+            res.render('login', { alertmessages })
         }
 
     },
@@ -177,7 +258,6 @@ module.exports = {
             c_email: req.body.c_email,
             lead_status: req.body.lead_status
         }
-
         lead_form.findOneAndUpdate({ c_id: lead_data.c_id }, lead_data, { new: true }, (err, data) => {
             if (err) console.log(err);
             else res.redirect('/emp/lead/callmanagement');
@@ -335,23 +415,34 @@ module.exports = {
         const password = req.body.password;
         req.session.username = username;
         employee.findOne({ emp_name: username }).then(emp => {
-            if (emp && emp.password == password) {
-                req.session.employee_id = emp.emp_id
-                if (emp.type == "employee") {
-                    req.session.type = "employee";
-                    res.redirect('/emp/lead/callmanagement');
+            if (emp) {
+                if (emp.password == password) {
+                    req.session.employee_id = emp.emp_id
+                    if (emp.type == "employee") {
+                        req.session.type = "employee";
+                        res.redirect('/emp/lead/callmanagement');
+                    }
+                    if (emp.type == 'admin') {
+                        req.session.type = "admin"
+                        res.redirect('/dept/')
+                    }
+                    if (emp.type == "reception") {
+                        req.session.type = "reception";
+                        res.redirect('/emp/lead/')
+                    }
                 }
-                if (emp.type == 'admin') {
-                    req.session.type = "admin"
-                    res.redirect('/dept/')
-                }
-                if (emp.type == "reception") {
-                    req.session.type = "reception";
-                    res.redirect('/emp/lead/')
+                else {
+                    const alertmessages = [];
+                    alertmessages.push({ msg: "please enter correct password" });
+                    res.render('login', { alertmessages })
                 }
             }
             else {
-                res.redirect('/emp/login')
+                const alertmessages = [];
+                alertmessages.push({ msg: "username does not extist contact admin" });
+                res.render('login', { alertmessages })
+
+
             }
         }).catch(err => {
             if (err) console.log(err);

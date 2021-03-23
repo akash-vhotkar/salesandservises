@@ -27,7 +27,10 @@ const empschema = new mongoose.Schema({
     password: {
         type: String,
         required: false
-    }
+    },
+    myleads: [
+        String
+    ]
 
 })
 module.exports = mongoose.model('employee', empschema);

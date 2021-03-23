@@ -23,7 +23,9 @@
     <nav class="navbar navbar-light bg-light d-flex justify-content-end">
 
         <a href="/emp/lead/callmanagement/closeleads" class="btn btn-primary ">completed lead </a>
+        <a href="/emp/changepassword/<%- emp_id%>" class="btn btn-primary">forget password</a>
         <a href="/emp/logout" class="btn btn-secondary "> logout</a>
+
 
 
     </nav>
@@ -31,6 +33,8 @@
     <div class="container">
         <h1 class="text-center"> call management </h1>
         <p class="text-center">click id and assign the employee</p>
+
+
 
 
 
@@ -63,7 +67,7 @@
                     <% cust.forEach(i=>{ %>
                         <tr>
                             <th scope="row">
-                                <a href="/emp/lead/assign/<%- i.c_id %>" style="text-decoration: none; ">
+                                <a style="text-decoration: none; ">
                                     <%- i.c_id %>
                                 </a>
 
