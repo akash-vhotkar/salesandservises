@@ -145,7 +145,6 @@ module.exports = {
 
                 departments.findOne({ dept_id: id }).then(data => {
                     const dept_name = data.dept_name;
-
                     sendgrid.setApiKey(gridapi);
                     const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
                     const emp_id = strongid.generate();

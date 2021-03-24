@@ -54,6 +54,54 @@ module.exports = {
 
         }
     },
+    gethoddashboard: function (req, res) {
+        if (req.session.employee_id && req.session.type == "hod") {
+            employee.findOne({ emp_id: req.session.employee_id }).then((employeedata) => {
+                let pendingtoassign = {};
+                let closedleads = {};
+                let productionleads = {};
+                let emp = [];
+                lead_form.find({ forworded_to_dept: employeedata.dept_name, lead_status: true }).then(leadsdata => {
+                    closedleads = leadsdata;
+                    lead_form.find({ forworded_to_dept: employeedata.dept_name, lead_status: false, lead_status_string: "assigned" }).then(leadsdata2 => {
+                        productionleads = leadsdata2;
+                        employee.find({ dept_name: employeedata.dept_name }).then(depttotalemployees => {
+                            emp = depttotalemployees;
+
+                            lead_form.find({ forworded_to_dept: employeedata.dept_name, lead_status: false, lead_status_string: "Pending" }).then(leadsdata3 => {
+                                pendingtoassign = leadsdata3;
+                                res.render("hoddashboard", { emp, closedleads, productionleads, pendingtoassign })
+
+
+
+                            }).catch(err => {
+                                if (err) console.log(err);
+                            })
+
+
+
+                        }).catch(err => {
+                            if (err) console.log(err);
+                        })
+
+                    }).catch(err => {
+                        if (err) console.log(err);
+                    })
+                }).catch(err => {
+                    if (err) console.log(err);
+                })
+
+
+            }).catch(err => {
+                if (err) console.log(err);
+            })
+
+        }
+        else {
+
+        }
+
+    },
     getchangepassword: function (req, res, id) {
         if (req.session.employee_id) {
             employee.findOne({ emp_id: id }).then((data) => {
@@ -429,6 +477,10 @@ module.exports = {
                     if (emp.type == "reception") {
                         req.session.type = "reception";
                         res.redirect('/emp/lead/')
+                    }
+                    if (emp.type == 'hod') {
+                        req.session.type = 'hod';
+                        res.redirect('/emp/hodcallmanagement')
                     }
                 }
                 else {

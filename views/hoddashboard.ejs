@@ -4,34 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/5c174d451e.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Department</title>
+
+    <title>callamanagement</title>
+    <style>
+        #myform {
+            display: none;
+        }
+    </style>
 </head>
 <style>
-    .card img {
-        width: 100%;
-        height: 50%;
-    }
 
-    .star {
-        color: red;
-    }
-
-    /* .depts {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 0px;
-    } */
 </style>
 
 <body>
     <nav class="navbar navbar-light bg-light d-flex justify-content-end">
-        <form action="/dept/getallemp" class="form-inline">
-            <button class="btn btn-primary" type="submit">GET All Employees </button>
-        </form>
-        <a href="/emp/" class="btn btn-primary"> Employees page</a>
         <a href="/emp/logout" class="btn btn-secondary "> logout</a>
     </nav>
 
@@ -56,21 +44,22 @@
 
 
 
+
     <!---------------------- tabs of the home page ---------------------------->
 
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="grid-tab" data-toggle="tab" href="#gridv" role="tab"
-                    aria-controls="gridv" aria-selected="true">Grid View</a>
+                <a class="nav-link active" id="assign-tab" data-toggle="tab" href="#assignleads" role="tab"
+                    aria-controls="assignleads" aria-selected="true">currunt pending to assign leads</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#tabelv" role="tab" aria-controls="tabelv"
-                    aria-selected="false">Tabel View</a>
+                <a class="nav-link" id="close-tab" data-toggle="tab" href="#closeleads" role="tab"
+                    aria-controls="closeleads" aria-selected="false">completed leads</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#add_dept" role="tab"
-                    aria-controls="add_dept" aria-selected="false">add Department</a>
+                <a class="nav-link" id="production-tab" data-toggle="tab" href="#productionleads" role="tab"
+                    aria-controls="productionleads" aria-selected="false">production leads</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="emp-tab" data-toggle="tab" href="#myemp" role="tab" aria-controls="myemp"
@@ -83,133 +72,276 @@
 
         <div class="tab-content" id="myTabContent">
 
-            <!--------------------------- show departments with grid system  ----------------------->
-            <div class="tab-pane fade show active" id="gridv" role="tabpanel" aria-labelledby="grid-tab">
-                <div class="container shadow depts d-flex ">
-                    <div class="row">
+            <!--------------------------- show  pending leads to be assign to the employee  ----------------------->
+            <div class="tab-pane fade show active" id="assignleads" role="tabpanel" aria-labelledby="assign-tab">
+                <table class="table table-striped">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th scope="col">Customer id</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer email</th>
+                            <th scope="col">lead type</th>
+                            <th scope="col"> lead status</th>
+                            <th scope="col">lead desc</th>
+
+                            <th scope="col">forworded to</th>
+                            <th scope="col">employee</th>
+                            <th scope="col">close lead</th>
+
+
+                            <th scope="col">lead Desc</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
 
 
 
+                        <% if(typeof pendingtoassign !='undefined' ){ %>
+                            <% pendingtoassign.forEach(i=>{ %>
+                                <tr>
+                                    <th scope="row">
+                                        <a style="text-decoration: none; ">
+                                            <%- i.c_id %>
+                                        </a>
 
-                        <% if(typeof depts !='undefined' ){ %>
-                            <% depts.forEach(i=>{ %>
+                                    </th>
+                                    <td>
+                                        <%- i.c_name %>
+                                    </td>
+                                    <td>
+                                        <%- i.c_email %>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_type%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_status_string%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_desc%>
+                                    </td>
 
-                                <div class="card col-md-3 m-5">
-                                    <img class="card-img-top" src="image/<%- i.dept_image %>" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <%- i.dept_name%>
-                                        </h5>
-                                        <p class="card-text">
-                                            <%- i.dept_desc%>
-                                        </p>
-                                        <!-- <a href="" class="btn btn-primary   w-100"> Add Department</a> -->
-                                        <a href="/dept/getemp/<%-i.dept_id%>" class="btn btn-primary  mt-2 w-100">Show
-                                            or
-                                            Add
-                                            Employees</a>
-                                    </div>
-                                </div>
+                                    <td>
+                                        <%- i.forworded_to_dept%>
+                                    </td>
+                                    <td>
+                                        <%-i.forworded_to_emp_name%>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="submit" onclick="closeleadfun(this)">close
+                                            lead</button>
+
+                                    </td>
+
+                                    <td>
+                                        <form action="/emp/lead/callmanagement/calldesc" method="POST">
+                                            <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">
+                                            <button class="btn btn-primary" type="submit">lead desc</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+
+
+
                                 <%}); %>
                                     <% } %>
-                    </div>
-                </div>
+
+
+
+
+
+
+
+                    </tbody>
+                </table>
             </div>
 
 
 
-            <!----------------------------------- tabel view of the departmets tabs  --------------------------->
-            <div class="tab-pane fade" id="tabelv" role="tabpanel" aria-labelledby="profile-tab">
-
-                <div class=" dept_table">
-                    <table class="table table-striped" id="calldesc">
-                        <thead class="bg-dark text-white">
-                            <tr>
-
-                                <th scope="col">department id</th>
-                                <th scope="col">department name</th>
-                                <th scope="col">department desc</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
+            <!----------------------------------- completed leads by employee   --------------------------->
+            <div class="tab-pane fade" id="closeleads" role="tabpanel" aria-labelledby="close-tab">
 
 
+                <table class="table table-striped">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th scope="col">Customer id</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer email</th>
+                            <th scope="col">lead type</th>
+                            <th scope="col"> lead status</th>
+                            <th scope="col">lead desc</th>
 
-                            <% if(typeof depts !='undefined' ){ %>
-                                <% depts.forEach(i=>{ %>
-                                    <tr>
-
-                                        <th scope="row">
-                                            <%- i.dept_id %>
-                                        </th>
-                                        <td>
-                                            <%- i.dept_name %>
-                                        </td>
-                                        <td>
-                                            <%- i.dept_desc %>
-                                        </td>
+                            <th scope="col">forworded to</th>
+                            <th scope="col">employee</th>
+                            <th scope="col">close lead</th>
 
 
-                                    </tr>
+                            <th scope="col">lead Desc</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
 
 
 
-                                    <%}); %>
-                                        <% } %>
+                        <% if(typeof closedleads !='undefined' ){ %>
+                            <% closedleads.forEach(i=>{ %>
+                                <tr>
+                                    <th scope="row">
+                                        <a style="text-decoration: none; ">
+                                            <%- i.c_id %>
+                                        </a>
 
-                        </tbody>
-                    </table>
-                </div>
+                                    </th>
+                                    <td>
+                                        <%- i.c_name %>
+                                    </td>
+                                    <td>
+                                        <%- i.c_email %>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_type%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_status_string%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_desc%>
+                                    </td>
+
+                                    <td>
+                                        <%- i.forworded_to_dept%>
+                                    </td>
+                                    <td>
+                                        <%-i.forworded_to_emp_name%>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="submit" onclick="closeleadfun(this)">close
+                                            lead</button>
+
+                                    </td>
+
+                                    <td>
+                                        <form action="/emp/lead/callmanagement/calldesc" method="POST">
+                                            <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">
+                                            <button class="btn btn-primary" type="submit">lead desc</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+
+
+
+                                <%}); %>
+                                    <% } %>
+
+
+
+
+
+
+
+                    </tbody>
+                </table>
+
+
             </div>
 
 
-            <!-----------------------------  add department form  ------------------------------------->
+            <!-----------------------------  curruntly working leads  ------------------------------------->
 
-            <div class="tab-pane fade" id="add_dept" role="tabpanel" aria-labelledby="contact-tab">
-                <div id="addemp" class="col-md-7 d-flex justify-content-center align-self-center shadow m-auto mt-5">
-
-
-                    <form action="/dept/adddept" method="POST" enctype="multipart/form-data">
-                        <div>
-                            <h1>Add Department</h1>
-                        </div>
-                        <div class="form-group p-3">
-
-                            <label>Department Name <span class="star">*</span></label>
-                            <input type="text" class="form-control" name="dept_name" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Enter Department Name " required>
-
-                        </div>
-                        <div class="form-group p-3">
-                            <label>Department Id <span class="star">*</span></label>
-                            <input type="text" name="dept_id" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" value="<%- dept_id%>" readonly>
-
-                        </div>
-                        <div class="form-group p-3">
-                            <label>Department Photo <span class="star">*</span></label>
-                            <input type="file" name="file" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" readonly>
-
-                        </div>
-
-                        <div class="form-group p-3">
-                            <label>Department desc<span class="star">*</span></label>
-                            <input type="text" name="dept_desc" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" placeholder="Enter department desc" required>
-
-                        </div>
-                        <div class="form-group p-3">
-                            <button type="submit" class="form-control p-2 bg-primary text-white">
-                                Add Department
-                            </button>
-                        </div>
-
-                    </form>
+            <div class="tab-pane fade" id="productionleads" role="tabpanel" aria-labelledby="production-tab">
 
 
-                </div>
+
+                <table class="table table-striped">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th scope="col">Customer id</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer email</th>
+                            <th scope="col">lead type</th>
+                            <th scope="col"> lead status</th>
+                            <th scope="col">lead desc</th>
+
+                            <th scope="col">forworded to</th>
+                            <th scope="col">employee</th>
+                            <th scope="col">close lead</th>
+
+
+                            <th scope="col">lead Desc</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+                        <% if(typeof productionleads !='undefined' ){ %>
+                            <% productionleads.forEach(i=>{ %>
+                                <tr>
+                                    <th scope="row">
+                                        <a style="text-decoration: none; ">
+                                            <%- i.c_id %>
+                                        </a>
+
+                                    </th>
+                                    <td>
+                                        <%- i.c_name %>
+                                    </td>
+                                    <td>
+                                        <%- i.c_email %>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_type%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_status_string%>
+                                    </td>
+                                    <td>
+                                        <%- i.lead_desc%>
+                                    </td>
+
+                                    <td>
+                                        <%- i.forworded_to_dept%>
+                                    </td>
+                                    <td>
+                                        <%-i.forworded_to_emp_name%>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" type="submit" onclick="closeleadfun(this)">close
+                                            lead</button>
+
+                                    </td>
+
+                                    <td>
+                                        <form action="/emp/lead/callmanagement/calldesc" method="POST">
+                                            <input type="text" class="d-none" name="c_id" id="" value="<%-i.c_id%>">
+                                            <button class="btn btn-primary" type="submit">lead desc</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+
+
+
+                                <%}); %>
+                                    <% } %>
+
+
+
+
+
+
+
+                    </tbody>
+                </table>
 
             </div>
 
@@ -220,6 +352,9 @@
             <div class="tab-pane fade" id="myemp" role="tabpanel" aria-labelledby="emp-tab">
 
                 <div class="col-md-8 d-flex align-self-center justify-content-center m-auto ">
+
+
+
                     <table class="table table-striped">
                         <thead class="bg-dark text-white">
                             <tr>
@@ -262,6 +397,7 @@
 
                         </tbody>
                     </table>
+
                 </div>
 
 
@@ -281,6 +417,42 @@
 
 
 
+    <div class="container">
+        <form action="/emp/lead/callmanagement/close" class="w-75 m-auto" id="myform" method="POST">
+            <div>
+                <h1 class="text-center"> close lead</h1>
+            </div>
+            <div class="form-group p-3">
+                <label>Customer Name <span class="star">*</span></label>
+                <input type="text" name="c_name" id="custname" class="form-control" aria-describedby="emailHelp"
+                    placeholder="Enter Customer Name" required>
+            </div>
+            <div class="form-group p-3">
+                <label>Customer Id <span class="star">*</span></label>
+                <input type="text" readonly class="form-control" id="custid" name="c_id" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter Customer Id">
+
+            </div>
+            <div class="form-group p-3">
+                <label>Customer Email<span class="star">*</span></label>
+                <input type="email" name="c_email" id="custemail" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Enter email" required>
+
+            </div>
+
+
+            <div class="form-group p-3 ">
+                <label for="exampleInputPassword1">Enter lead close description <span>*</span> </label>
+                <textarea name="closedesc" id="close" rows="3" placeholder="Enter lead close desc"
+                    class="form-control"></textarea>
+            </div>
+
+            <div class="form-group p-3">
+                <input type="submit" class="form-control p-2 bg-primary text-white" id="exampleInputPassword1"
+                    value="Close Lead">
+            </div>
+
+        </form>
 
 
 
@@ -288,7 +460,25 @@
 
 
 
-    <!---------------------------------   boootstrap links --------------------------------->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -299,23 +489,33 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <!----------------------------- javascript here --------------------------------->
-
     <script>
-        function myfun() {
-            const btn = document.querySelector('#change_text')
-            btn.innerHTML = "Employee added"
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log("running");
-                }
-            };
-            xhttp.open("POST", "/dept/addemp");
-            xhttp.send();
-        }
-    </script>
+        function closeleadfun(btn) {
+            const myform = document.querySelector('#myform');
+            myform.style.display = 'block';
+            const parent = btn.parentElement.parentElement;
+            const c_id = parent.children[0].innerText;
+            const c_name = parent.children[1].innerText;
+            const c_email = parent.children[2].innerText;
 
+            const custname = document.querySelector('#custname');
+            const custid = document.querySelector('#custid');
+            const custemail = document.querySelector('#custemail');
+
+            custname.value = c_name;
+            custid.value = c_id;
+            custemail.value = c_email;
+
+
+        }
+
+
+
+
+
+
+
+    </script>
 </body>
 
 </html>

@@ -13,6 +13,9 @@ router.post('/lead/callmanagement/close', (req, res) => {
 router.get('/lead/callmanagement/closeleads', (req, res) => {
     employee_controller.getcloseleads(req, res);
 })
+router.get('/hodcallmanagement', (req, res) => {
+    employee_controller.gethoddashboard(req, res);
+})
 
 router.get('/changepassword/:id', (req, res) => {
 
