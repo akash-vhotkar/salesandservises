@@ -90,8 +90,6 @@
 
 
                             <th scope="col">lead Desc</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
@@ -102,10 +100,9 @@
                             <% pendingtoassign.forEach(i=>{ %>
                                 <tr>
                                     <th scope="row">
-                                        <a style="text-decoration: none; ">
+                                        <a href="/emp/lead/hodassign/<%- i.c_id %>" style="text-decoration: none; ">
                                             <%- i.c_id %>
                                         </a>
-
                                     </th>
                                     <td>
                                         <%- i.c_name %>
@@ -287,7 +284,7 @@
                             <% productionleads.forEach(i=>{ %>
                                 <tr>
                                     <th scope="row">
-                                        <a style="text-decoration: none; ">
+                                        <a href="/emp/lead/assign/<%- i.c_id %>" style="text-decoration: none; ">
                                             <%- i.c_id %>
                                         </a>
 

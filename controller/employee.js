@@ -24,8 +24,6 @@ module.exports = {
             const alertmessages = [];
             alertmessages.push({ msg: "please login " });
             res.render('login', { alertmessages })
-
-
         }
     },
     closelead: function (req, res) {
@@ -53,6 +51,46 @@ module.exports = {
 
 
         }
+    },
+    gethodassignleads: function (req, res, id) {
+        lead_form.findOne({ c_id: id }).then(leaddata => {
+            const department = leaddata.forworded_to_dept;
+            employee.find({ dept_name: department }).then(allemp => {
+                const mycustomer_id = leaddata.c_id;
+                const customer_name = leaddata.c_name;
+                const customer_email = leaddata.c_email;
+                const customer_mobile = leaddata.c_no;
+                res.render('hodassignleads', { allemp, mycustomer_id, customer_email, customer_mobile, customer_name })
+
+            }).catch(err => {
+                if (err) console.log(err);
+            })
+
+
+
+        }).catch(err => {
+            if (err) console.log(err);
+        })
+
+    },
+    hodassigntoemployee: function (req, res, customerid) {
+        const emp_id = req.body.employee;
+        console.log(emp_id);
+        employee.findOne({ emp_id: emp_id }).then(employeedata => {
+            console.log("empoyee data", employeedata);
+            lead_form.findOneAndUpdate({ c_id: customerid }, {
+                forworded_to_emp_id: emp_id,
+                forworded_to_emp_name: employeedata.emp_name,
+                lead_status_string: "assigned"
+            }, { new: true }, (err, data) => {
+                if (err) console.log(err);
+                if (data) res.redirect('/emp/hodcallmanagement')
+
+            })
+
+        }).catch(err => {
+            if (err) console.log(err);
+        })
     },
     gethoddashboard: function (req, res) {
         if (req.session.employee_id && req.session.type == "hod") {
@@ -153,10 +191,12 @@ module.exports = {
         }
     },
     forward_lead: function (req, res, customer_id) {
+        console.log("thise is customer id   ", customer_id);
         if (req.session.employee_id) {
             departmentmodel.find().then((dept_data) => {
                 lead_form.findOne({ c_id: customer_id }).then(data => {
-                    res.render('assignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
+                    console.log("thise is data ", data);
+                    res.render('receptionassignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
                 }).catch(err => {
                     console.log(err);
                 })
@@ -175,27 +215,21 @@ module.exports = {
         if (req.session.employee_id) {
             let copy = {};
             const deptid = req.body.forworded_department;
-            const employee_working_id = req.body.employee;
 
             departmentmodel.findById(deptid).then(data => {
-                employee.findOne({ emp_id: employee_working_id }).then(employeedata => {
-                    lead_form.findOneAndUpdate({ c_id: id }, {
-                        forworded_to_dept: data.dept_name,
-                        forworded_to_emp_name: employeedata.emp_name,
-                        lead_status: false,
-                        lead_status_string: "assigned",
-                        forworded_to_emp_id: employee_working_id
-                    }, { new: true }, (err, cust) => {
-                        if (err) console.log(err);
-                        if (cust) res.redirect('/emp/lead/callmanagement')
-
-
-                    })
-
-
-                }).catch(err => {
+                lead_form.findOneAndUpdate({ c_id: id }, {
+                    forworded_to_dept: data.dept_name,
+                    forworded_to_emp_name: "nan",
+                    lead_status: false,
+                    lead_status_string: "Pending"
+                }, { new: true }, (err, cust) => {
                     if (err) console.log(err);
+                    if (cust) res.redirect('/emp/lead/callmanagement')
+
+
                 })
+
+
 
 
             }).catch(err => {

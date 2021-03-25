@@ -1,17 +1,28 @@
 const { Router } = require('express');
 const express = require('express');
+const employee = require('../controller/employee');
 const router = express.Router();
 const employee_controller = require('../controller/employee');
 // all post requst empiyees
+router.post('/lead/hodassign/assign/:mycustomer_id', (req, res) => {
+    employee_controller.hodassigntoemployee(req, res, req.params.mycustomer_id);
+})
 router.get('/logout', (req, res) => {
     employee_controller.logout(req, res);
 
+})
+
+router.get('/lead/assign/:id', (req, res) => {
+    employee_controller.forward_lead(req, res, req.params.id);
 })
 router.post('/lead/callmanagement/close', (req, res) => {
     employee_controller.closelead(req, res);
 })
 router.get('/lead/callmanagement/closeleads', (req, res) => {
     employee_controller.getcloseleads(req, res);
+})
+router.get('/lead/hodassign/:id', (req, res) => {
+    employee_controller.gethodassignleads(req, res, req.params.id);
 })
 router.get('/hodcallmanagement', (req, res) => {
     employee_controller.gethoddashboard(req, res);
@@ -85,9 +96,6 @@ router.get('/lead/service', (req, res) => {
 })
 router.get('/register', (req, res) => {
     employee_controller.getregister(req, res);
-})
-router.get('/lead/assign/:id', (req, res) => {
-    employee_controller.forward_lead(req, res, req.params.id);
 })
 
 router.post('/lead/getdeptbyid', (req, res) => {

@@ -22,7 +22,6 @@ app.use(express.static('./public'))
 
 mongoose.connect(URl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }).then(() => console.log("database connected")).catch(err => { console.log(err); })
 app.use(session({
-    secret: "secreat",
     resave: true,
     saveUninitialized: false
 }))
