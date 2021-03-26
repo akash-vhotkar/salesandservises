@@ -99,9 +99,6 @@ router.get('/login', (req, res) => {
 router.get('/lead/service', (req, res) => {
     employee_controller.servicepage(req, res);
 })
-router.get('/register', (req, res) => {
-    employee_controller.getregister(req, res);
-})
 
 router.post('/lead/getdeptbyid', (req, res) => {
     employee_controller.get_dept_id(req, res, req.body.id);
