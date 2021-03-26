@@ -3,6 +3,11 @@ const employee = require('../model/employee');
 const departmentmodel = require('../model/depart1');
 const lead_form = require('../model/lead');
 const service = require('../model/service');
+
+const sendgrid = require('@sendgrid/mail');
+const gridapi = require('../keys').sendgridapi;
+
+
 module.exports = {
     logout: function (req, res) {
         req.session = null;
@@ -193,15 +198,21 @@ module.exports = {
     forward_lead: function (req, res, customer_id) {
         console.log("thise is customer id   ", customer_id);
         if (req.session.employee_id) {
-            departmentmodel.find().then((dept_data) => {
-                lead_form.findOne({ c_id: customer_id }).then(data => {
-                    console.log("thise is data ", data);
-                    res.render('receptionassignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
+            employee.findOne({ emp_id: req.session.employee_id }).then((employeedata) => {
+
+                departmentmodel.find({ adminid: employeedata.adminid }).then((dept_data) => {
+                    lead_form.findOne({ c_id: customer_id }).then(data => {
+                        console.log("thise is data ", data);
+                        res.render('receptionassignlead', { customer_name: data.c_name, mycustomer_id: data.c_id, customer_mobile: data.c_no, customer_email: data.c_email, alldepts: dept_data });
+                    }).catch(err => {
+                        console.log(err);
+                    })
                 }).catch(err => {
                     console.log(err);
                 })
+
             }).catch(err => {
-                console.log(err);
+                if (err) console.log(err);
             })
         }
         else {
@@ -224,8 +235,29 @@ module.exports = {
                     lead_status_string: "Pending"
                 }, { new: true }, (err, cust) => {
                     if (err) console.log(err);
-                    if (cust) res.redirect('/emp/lead/callmanagement')
+                    if (cust) {
+                        sendgrid.setApiKey(gridapi);
+                        const message = {
+                            to: data.hodemail,
+                            from: {
+                                name: "hardcipher",
+                                email: "akashvhotkar4@gmail.com"
+                            },
+                            subject: "new lead",
+                            html: `<h3>hello ${data.hodemail}</h3> <p>new lead generated </>
+                            <p>${cust.lead_desc}</p><p>lead type is ${data.lead_type} </p>  <a href= "http://localhost:1234/emp/login">login and assign lead</a>`
 
+                        }
+                        sendgrid.send(message).then(emaildata => {
+                            res.redirect('/emp/lead/callmanagement')
+
+
+                        }).catch(err => {
+                            if (err) console.log(err);
+                        })
+
+
+                    }
 
                 })
 
@@ -491,6 +523,40 @@ module.exports = {
         }).catch(err => {
             if (err) console.log(err);
         })
+    },
+    registeradmin: function (req, res) {
+        if (req.body.password != req.body.confirm_password) {
+            let alertmessages = [];
+            alertmessages.push({ msg: " password and correct password does not match" })
+            res.render('register', { alertmessages })
+        }
+        else {
+            const adminid = strongid.generate();
+            const admindata = {
+                adminid: adminid,
+                adminname: req.body.adminusername,
+                adminemail: req.body.adminemail
+
+            }
+            const adminasemployee = {
+                adminid: adminid,
+                emp_id: adminid,
+                emp_name: req.body.adminusername,
+                emp_email: req.body.adminemail,
+                password: req.body.password,
+                type: "admin"
+            }
+            departmentmodel.create(admindata).then(() => {
+                employee.create(adminasemployee).then(() => {
+                    res.redirect('/dept/')
+
+                }).catch(err => {
+                    if (err) console.log(err);
+                })
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     },
     login: function (req, res) {
         const username = req.body.username;

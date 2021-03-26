@@ -11,7 +11,12 @@ router.get('/logout', (req, res) => {
     employee_controller.logout(req, res);
 
 })
-
+router.get('/register', (req, res) => {
+    res.render('register');
+})
+router.post('/register', (req, res) => {
+    employee_controller.registeradmin(req, res);
+})
 router.get('/lead/assign/:id', (req, res) => {
     employee_controller.forward_lead(req, res, req.params.id);
 })

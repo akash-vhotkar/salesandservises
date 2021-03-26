@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 const empschema = new mongoose.Schema({
+    adminid: {
+        type: String,
+        required: true
+    },
     emp_name: {
         type: String,
         required: true

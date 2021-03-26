@@ -22,20 +22,32 @@ module.exports = {
 
                     }
                     else {
-                        const newdepartment = {
-                            dept_name: req.body.dept_name,
-                            dept_desc: req.body.dept_desc,
-                            dept_id: req.body.dept_id,
-                            dept_image: filename
-                        }
-                        departments.create(newdepartment).then(() => {
 
-                            const dept_id = strongid.generate();
+                        departments.findOne({ adminid: req.session.employee_id }).then((admindata) => {
 
-                            console.log("department was added");
-                            res.redirect('/dept/')
+
+                            const newdepartment = {
+                                adminid: admindata.adminid,
+                                adminname: admindata.adminname,
+                                adminemail: admindata.adminemail,
+                                dept_name: req.body.dept_name,
+                                dept_desc: req.body.dept_desc,
+                                dept_id: req.body.dept_id,
+                                dept_image: filename
+                            }
+                            departments.create(newdepartment).then(() => {
+
+                                const dept_id = strongid.generate();
+
+                                console.log("department was added");
+                                res.redirect('/dept/')
+                            }).catch(err => {
+                                console.log(err);
+                            })
+
+
                         }).catch(err => {
-                            console.log(err);
+                            if (err) console.log(err);
                         })
 
                     }
@@ -58,9 +70,11 @@ module.exports = {
     all_departments: function (req, res) {
         if (req.session.type) {
             if (req.session.type == 'admin') {
+                const adminid = req.session.employee_id;
+
 
                 if (req.session.err) {
-                    departments.find().then(depts => {
+                    departments.find({ adminid: adminid }).then(depts => {
                         const err = req.session.err;
                         req.session.err = null;
                         const dept_id = strongid.generate();
@@ -72,7 +86,7 @@ module.exports = {
                     })
                 }
                 else {
-                    departments.find().then(depts => {
+                    departments.find({ adminid: adminid }).then(depts => {
                         const dept_id = strongid.generate();
                         employees.find().then(employee => {
                             const emp = employee;
@@ -83,15 +97,9 @@ module.exports = {
                                 console.log(err);
                             })
 
-
-
-
                     }).catch(err => {
                         console.log(err);
                     })
-
-
-
                 }
             }
             if (req.session.type == 'employee') {
@@ -149,6 +157,7 @@ module.exports = {
                     const password = password_generator.randomPassword({ length: 6, characters: [password_generator.lower, password_generator.upper, password_generator.digits] })
                     const emp_id = strongid.generate();
                     const emp_data = {
+                        adminid: req.session.employee_id,
                         emp_image: filename,
                         password: password,
                         type: req.body.type,
