@@ -237,24 +237,9 @@ module.exports = {
                     if (err) console.log(err);
                     if (cust) {
                         sendgrid.setApiKey(gridapi);
-                        const message = {
-                            to: data.hodemail,
-                            from: {
-                                name: "hardcipher",
-                                email: "akashvhotkar4@gmail.com"
-                            },
-                            subject: "new lead",
-                            html: `<h3>hello ${data.hodemail}</h3> <p>new lead generated </>
-                            <p>${cust.lead_desc}</p><p>lead type is ${data.lead_type} </p>  <a href= "http://localhost:1234/emp/login">login and assign lead</a>`
 
-                        }
-                        sendgrid.send(message).then(emaildata => {
-                            res.redirect('/emp/lead/callmanagement')
+                        res.redirect('/emp/lead/callmanagement')
 
-
-                        }).catch(err => {
-                            if (err) console.log(err);
-                        })
 
 
                     }

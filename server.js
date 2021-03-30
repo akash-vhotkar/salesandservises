@@ -9,12 +9,7 @@ const sortid = require('shortid');
 const URl = require('./keys').url;
 const shortid = require('shortid');
 const methodoverride = require('method-override')
-
-
-
-
 // all middleware
-
 app.use(body_parser.urlencoded({ extended: true }))
 app.set('view engine', "ejs");
 app.use(methodoverride('_method'))
@@ -26,10 +21,7 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }))
-
 // routers
-
-
 app.use('/dept', require('./router/depart'));
 app.use('/emp', require('./router/emp'));
 
